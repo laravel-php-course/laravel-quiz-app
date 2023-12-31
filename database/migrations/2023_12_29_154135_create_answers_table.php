@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('body', '512');
             $table->boolean('is_true_answer');
             $table->timestamps();
+            $table->softDeletes();
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
         });
     }
 

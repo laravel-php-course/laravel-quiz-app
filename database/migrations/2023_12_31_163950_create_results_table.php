@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('quiz_actions', function (Blueprint $table) {
+        Schema::create('results', function (Blueprint $table) {
             $table->id();
             $table->string('code', 16)->unique();
-            $table->float('score')->default(0);
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('quiz_id');
+            $table->unsignedBigInteger('answer_id');
             $table->timestamps();
             $table->softDeletes();
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade');
+            $table->foreign('code')->references('code')->on('quiz_actions')->onDelete('cascade');
+            $table->foreign('answer_id')->references('id')->on('answers')->onDelete('cascade');
+
         });
     }
 
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('quiz_actions');
+        Schema::dropIfExists('results');
     }
 };

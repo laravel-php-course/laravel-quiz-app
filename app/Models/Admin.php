@@ -10,6 +10,9 @@ class Admin extends Model
 {
     use HasFactory;
 
+    const ADMIN = 'Admin';
+    const SUPERADMIN = 'SuperAdmin';
+
     public function quizzes(): MorphMany
     {
         return $this->morphMany(Quiz::class, 'creator');
