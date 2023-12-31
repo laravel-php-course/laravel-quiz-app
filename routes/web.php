@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Admin;
+use App\Models\Quiz;
 use Illuminate\Support\Facades\Route;
 
 /*

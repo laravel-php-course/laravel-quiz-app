@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('questions', function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('email', 191)->unique()->nullable();
-            $table->string('mobile', 13)->unique()->nullable();
-            $table->string('verified_code', 6)->nullable();
-            $table->timestamp('verified_at')->nullable();
+            $table->string('title', 512);
+            $table->unsignedBigInteger('quiz_id');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade');
         });
     }
 
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('questions');
     }
 };
