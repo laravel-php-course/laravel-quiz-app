@@ -13,6 +13,7 @@ class Admin extends Model
     const ADMIN = 'Admin';
     const SUPERADMIN = 'SuperAdmin';
 
+    protected $guarded = [];
     public function quizzes(): MorphMany
     {
         return $this->morphMany(Quiz::class, 'creator');

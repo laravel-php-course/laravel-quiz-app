@@ -9,6 +9,12 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class Teacher extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+    const PENDING = 'Pending';
+    const ACTIVE = 'Active';
+    const SUSPEND = 'Suspend';
+
+    const STATUS = [self::ACTIVE, self::PENDING, self::SUSPEND];
     public function quizzes(): MorphMany
     {
         return $this->morphMany(Quiz::class, 'creator');
