@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserAuthController;
 use App\Models\Admin;
 use App\Models\Quiz;
 use Illuminate\Support\Facades\Route;
@@ -24,3 +25,5 @@ Route::get('/register', function () {
 Route::get('/logIn', function () {
     return view('LogIn');
 });
+
+Route::post('/register', [UserAuthController::class,'handleRegister'])->name('user.auth.register');
