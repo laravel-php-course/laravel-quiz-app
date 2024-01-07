@@ -42,6 +42,7 @@ class User extends Authenticatable
         'verified_at' => 'datetime',
     ];
 
+
     public function quizActions(): HasMany
     {
         return $this->hasMany(QuizAction::class);

@@ -29,7 +29,15 @@
             </a>
         </div>
         <div>
-            <a href="/register" class="inline-block btn">ثبت نام / ورود</a>
+            @if(session()->get('profile'))
+                <a href="/" class="inline-block btn">پروفایل</a>
+                <a href="{{route('logOut')}}" class="inline-block btn bg-red-500">خروج</a>
+
+            @else
+                <a href="/register" class="inline-block btn">ثبت نام / ورود</a>
+
+            @endif
+
         </div>
     </div>
 </nav>

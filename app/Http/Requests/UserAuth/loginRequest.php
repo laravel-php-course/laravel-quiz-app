@@ -3,10 +3,9 @@
 namespace App\Http\Requests\UserAuth;
 
 use App\Rules\MobileRule;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class loginRequest extends FormRequest
 {
     use GetValueAndFieldRegisterTrait;
     /**
@@ -20,13 +19,12 @@ class RegisterRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         $rules = [
             'type' => 'required|in:email,mobile',
-            'name' => 'required',
         ];
 
         if ($this->input('type') == 'email') {
@@ -41,11 +39,4 @@ class RegisterRequest extends FormRequest
         }
         return $rules;
     }
-
-    // public function messages(): array
-    // {
-    //     return [
-    //         'type.in' => 'dksmdkmsdkmdskm'
-    //     ];
-    // }
 }

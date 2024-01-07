@@ -8,20 +8,60 @@
 </head>
 <body class="bg-gray-100">
 <div class=" flex justify-center h-screen">
-<form action="" method="post" class="bg-white p-8 rounded m-auto">
-    <div class="block flex">
-    <label class=" text-gray-500 font-bold mt-4 px-4"  >نام</label>
-    <input class="input" type="text" name="name" placeholder="نام را وارد کنید ...">
-</div><div class="block flex"  id="email">
-    <label class=" text-gray-500 font-bold mt-4 px-4" >ایمیل</label>
-    <input class=" input " type="email" name="email" placeholder="ایمیل را وارد کنید ...">
-</div><div class="block flex"  id="phone">
-    <label class=" text-gray-500 font-bold mt-4 px-4" >تلفن</label>
-    <input class=" input" type="phone" name="phone" placeholder="تلفن را وارد کنید ...">
-</div>
-<a href="" class=" block mr-4 text-gray-400 my-2 text-sm ">حساب ندارم / ثبت نام</a>
-    <input class="btn" type="submit" name="submit" value="ثبت">
-</form>
+    <form action="{{ route('user.auth.login') }}" method="post" class="p-8 m-auto bg-white rounded">
+        @csrf
+        <div class="flex">
+            <label class="px-4 font-bold text-gray-500 ">ایمیل</label>
+            <input {{ old('type') == 'mobile' ? '' : 'checked' }} class="" type="radio" value="email" name="type" id="email">
+            <label class="px-4 font-bold text-gray-500 ">موبایل</label>
+            <input {{ old('type') == 'mobile' ? 'checked' : '' }} class="" type="radio" value="mobile" name="type" id="mobile">
+            @error('type')
+            <div class="text-red-500">
+                {{ $message }}
+            </div>
+            @enderror
+        </div>
+        <div class="{{ old('type') == 'mobile' ? 'hidden' : 'flex' }}" id="email-container">
+            <label class="px-4 mt-4 font-bold text-gray-500 ">ایمیل</label>
+            <input class=" input" type="text" name="email" placeholder="ایمیل را وارد کنید ...">
+            @error('email')
+            <div class="text-red-500">
+                {{ $message }}
+            </div>
+            @enderror
+        </div>
+        <div class="{{ old('type') == 'mobile' ? 'flex' : 'hidden' }}" id="mobile-container">
+            <label class="px-4 mt-4 font-bold text-gray-500 ">موبایل</label>
+            <input class=" input" type="text" name="mobile" placeholder="موبایل را وارد کنید ...">
+            @error('mobile')
+            <div class="text-red-500">
+                {{ $message }}
+            </div>
+            @enderror
+        </div>
+        <a href="/register" class="block my-2 mr-4 text-sm text-gray-400 ">حساب ندارم / ثبت نام</a>
+        <input class="btn" type="submit" name="submit" value="ثبت">
+    </form>
 </div>
 </body>
 </html>
+<script>
+    const emailInput = document.getElementById('email');
+    const mobileInput = document.getElementById('mobile');
+
+    emailInput.addEventListener('click', (event) => {
+        document.querySelector('#email-container').classList.add('flex');
+        document.querySelector('#email-container').classList.remove('hidden');
+
+        document.querySelector('#mobile-container').classList.add('hidden');
+        document.querySelector('#mobile-container').classList.remove('flex');
+    });
+    mobileInput.addEventListener('click', (event) => {
+        document.querySelector('#mobile-container').classList.add('flex');
+        document.querySelector('#mobile-container').classList.remove('hidden');
+
+        document.querySelector('#email-container').classList.add('hidden');
+        document.querySelector('#email-container').classList.remove('flex');
+    });
+
+</script>

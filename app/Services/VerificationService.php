@@ -20,14 +20,25 @@ class VerificationService extends BaseService
     }
 
     /**
+     * @param $key
+     * @param $value
+     * @param mixed $time
      * @throws InvalidArgumentException
      */
-    public static function set($key, $value, $time = 5) //TODO ADD TO CONFIG
+    public static function set($key, $value, $time )
     {
         if (!cache()->has(self::CACHE_KEY.$key))
         {
-            $time = $time == 5 ? now()->addMinutes(1) : now()->addMinutes($time);
+            $time = $time == env('TIME_FOR_CACHE', '2') ? now()->addMinutes(1) : now()->addMinutes($time);
             cache()->set(self::CACHE_KEY.$key, $value, $time);
+        }
+    }
+    public static function get($name)
+    {
+        $key = session()->get($name);
+        if (cache()->has(self::CACHE_KEY.$key))
+        {
+           return cache()->get(self::CACHE_KEY.$key);
         }
     }
 }
