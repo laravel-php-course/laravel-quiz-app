@@ -25,6 +25,7 @@ class CodeRequest extends FormRequest
         {
             return  [
                 'Code' => 'required' ,
+                'destination' => 'required'
                      ]   ;
 
         }

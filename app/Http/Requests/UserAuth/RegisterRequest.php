@@ -30,14 +30,10 @@ class RegisterRequest extends FormRequest
         ];
 
         if ($this->input('type') == 'email') {
-            $rules['email'] = ['required','email'];
-            session()->put('email' , $this->input('email'));
-            session()->put('type' , 'email');
+            $rules['email'] = ['required','email', 'unique:users,email'];
         }
         elseif ($this->input('type') == 'mobile') {
-            $rules['mobile'] = ['required', new MobileRule()];
-            session()->put('mobile' , $this->input('mobile'));
-            session()->put('type' , 'mobile');
+            $rules['mobile'] = ['required', 'unique:users,mobile', new MobileRule()];
         }
         return $rules;
     }
