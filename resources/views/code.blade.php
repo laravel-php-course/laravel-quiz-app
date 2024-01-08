@@ -8,8 +8,9 @@
 </head>
 <body class="bg-gray-100">
 <div class=" flex justify-center h-screen">
-    <form action="{{route('user.auth.code')}}" method="post" class="bg-white p-8 rounded m-auto">
+    <form action="{{ $action }}" method="post" class="bg-white p-8 rounded m-auto">
         @csrf
+        <input type="hidden" value="{{ $destination }}" name="destination">
         <div class="block flex">
             <label class=" text-gray-500 font-bold mt-4 px-4"  id="timer"></label>
             <input class="input" type="text" name="Code" placeholder="کد را وارد کنید ...">

@@ -9,12 +9,18 @@ use App\Models\User;
 use App\Services\VerificationService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 
 class UserAuthController extends Controller
 {
+    public function ShowRegisterForm()
+    {
+        return view('register');
+    }
+
     /**
      * @throws Exception|InvalidArgumentException
      */
@@ -22,13 +28,14 @@ class UserAuthController extends Controller
     {
         $field = $request->getField();
         $value = $request->getValue();
-        $name1 = $request->input('name') ;
-        $code = VerificationService::generteCode();
-        VerificationService::set($value, $code, 2);
+        $name  = $request->input('name') ;
+        $code  = VerificationService::generteCode();
+
+        $cacheValue = json_encode(['code' => $code, 'name' => $name, 'type' => $field]);
+        VerificationService::set($value, $cacheValue, 5);
         VerificationService::sendCode($value, $field, $code);
-        session()->put('name' , $value);
-        session()->put('realName' , $name1);
-        return view('code');
+
+        return view('code', ['destination' => $value, 'action' => route('user.auth.code')]);
     }
 
     /**
@@ -39,12 +46,12 @@ class UserAuthController extends Controller
     {
         $field = $request->getField();
         $value = $request->getValue();
-        $code = VerificationService::generteCode();
+        $code  = VerificationService::generteCode();
+
         VerificationService::set($value, $code, 2);
         VerificationService::sendCode($value, $field, $code);
-        session()->put('name' , $value);
-/*        session()->put('realName' , $name1);*/
-        return view('codeLogin');
+
+        return view('code', ['destination' => $value, 'action' => route('user.auth.codeLogin')]);
     }
 
     /**
@@ -82,26 +89,64 @@ class UserAuthController extends Controller
      */
     public function handleCode(CodeRequest $request)
     {
-        $name =  VerificationService::get('name');
-        if ( $request->input('Code') == $name && session()->get('realName')  || session()->get('email') || session()->get('mobile')){
-            User::create([
-                'name' => session()->get('realName'),
-                'email' => session()->get('email'),
-                'mobile' => session()->get('mobile'),
-                'verified_code' => $request->input('Code')
-            ]);
-            session()->put('profile' , session()->get('email')) ;
+        $result =  VerificationService::get($request->input('destination'));
+        if (empty($result))
+        {
+            dd('erorr');
+            //TODO error
+            return;
+        }
+
+        $result = json_decode($result, true);
+        if ($request->input('Code') == $result['code'])
+        {
+            $data = [
+                'name' => $result['name'],
+                'verified_at' => date('Y-m-d H:i:s')
+            ];
+
+            if ($result['type'] == 'email')
+            {
+                $data['email'] = $request->input('destination');
+            }
+            else
+            {
+                $data['mobile'] = $request->input('destination');
+            }
+
+            $user = User::create($data);
+            Auth::login($user);
+            VerificationService::delete($request->input('destination'));
             return redirect()->route('home');
+        }
+        else
+        {
+            //TODO error
         }
     }
 
+    public function LogOut()
+    {
+        if (auth()->check())
+        {
+            Auth::logout();
+        }
+        return redirect()->route('home');
+    }
+
+    /**
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     */
     public function handleCodeLogin(CodeRequest $request)
     {
-        $name =  VerificationService::get('name');
-        if ( $request->input('Code') == $name ){
-            $count = User::where(session()->get('type') , session()->get('name'))->count();
-            if ($count == 1){
-                session()->put('profile' , session()->get('email')) ;
+        $code =  VerificationService::get($request->input('destination'));
+        if ( $request->input('Code') == $code )
+        {
+            $type = filter_var($request->input('destination'), FILTER_VALIDATE_EMAIL) ? 'email' : 'mobile';
+            $user = User::where($type , $request->input('destination'))->first();
+            if ($user){
+                Auth::login($user);
                 return redirect()->route('home');
             }
 

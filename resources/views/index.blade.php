@@ -29,14 +29,12 @@
             </a>
         </div>
         <div>
-            @if(session()->get('profile'))
+            @auth()
                 <a href="/" class="inline-block btn">پروفایل</a>
                 <a href="{{route('logOut')}}" class="inline-block btn bg-red-500">خروج</a>
-
             @else
                 <a href="/register" class="inline-block btn">ثبت نام / ورود</a>
-
-            @endif
+            @endauth
 
         </div>
     </div>

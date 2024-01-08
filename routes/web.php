@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserAuthController;
 use App\Models\Admin;
 use App\Models\Quiz;
@@ -15,27 +16,18 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+//TODO delete Bad Routes and convert to Ctrl And routes name
 
-Route::get('/', function () {
-    return view('index');
-})->name('home');
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
+Route::get('/', [SiteController::class, 'Home'])->name('home');
+
+Route::get('/register', [UserAuthController::class, 'ShowRegisterForm'])->name('register');
 Route::get('/logIn', function () {
     return view('LogIn');
 })->name('logIn');
 Route::get('/code', function () {
     return view('code');
 })->name('code');
-Route::get('/logOut', function () {
-    session()->forget('profile');
-    session()->forget('email');
-    session()->forget('name');
-    session()->forget('mobile');
-    session()->forget('realName');
-    return redirect()->route('home');
-})->name('logOut');
+Route::get('/logOut', [UserAuthController::class, 'LogOut'])->name('logOut');
 Route::get('/resend', [UserAuthController::class , 'handleResend']);
 Route::get('/resendLogin', [UserAuthController::class , 'handleResendLogin']);
 
