@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use Exception;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 
 class VerificationService extends BaseService
@@ -22,23 +24,35 @@ class VerificationService extends BaseService
     /**
      * @param $key
      * @param $value
-     * @param mixed $time
+     * @param int|string|null $time
      * @throws InvalidArgumentException
      */
-    public static function set($key, $value, $time )
+    public static function set($key, $value, $time = null)
     {
         if (!cache()->has(self::CACHE_KEY.$key))
         {
-            $time = $time == env('TIME_FOR_CACHE', '2') ? now()->addMinutes(1) : now()->addMinutes($time);
+            $time = empty($time) ? now()->addMinutes(env('TIME_FOR_CACHE', '2')) : now()->addMinutes($time);
             cache()->set(self::CACHE_KEY.$key, $value, $time);
         }
     }
-    public static function get($name)
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public static function get(string $key)
     {
-        $key = session()->get($name);
+        return cache()->has(self::CACHE_KEY.$key) ? cache()->get(self::CACHE_KEY.$key) : false;
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public static function delete(string $key)
+    {
         if (cache()->has(self::CACHE_KEY.$key))
         {
-           return cache()->get(self::CACHE_KEY.$key);
+            cache()->delete(self::CACHE_KEY.$key);
         }
     }
 }
