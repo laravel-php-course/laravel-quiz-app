@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Mail\VerificationMail;
+use App\Models\Code;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+
 
 class BaseService
 {
@@ -27,17 +29,25 @@ class BaseService
 
     public static function sendCode($dest, $type, $code)
     {
+        $cache = json_decode(VerificationService::get($dest) , true) ;
         if ($type == 'email')
         {
             Mail::to($dest)->send(new VerificationMail($code));
-//            ActivationCode::create([
-//                'destionation' => $dest,
-//                'code' =>
-//            ])
+            Code::create([
+                'dest' => $dest,
+                'code' => $code ,
+                'username' => $cache['name'] ,
+                'type' => $cache['type'] ,
+                'date' => now()
+            ]);
         }
         else
         {
-            $msg = "کد ورود شما : {$code}"; //TODO ADD config
+
+            $template = config('services.sms.template');
+            $search = ['NAME' , 'CODE' , 'MOBILE'];
+            $replace = [$cache['name'] , $cache['code'] , $dest];
+            $msg = str_replace($search , $replace , $template);
             $response = Http::withoutVerifying()->withHeaders([
                 'Content-Type' => 'application/x-www-form-urlencoded',
             ])->asForm()->post(config('services.sms.url'), [
@@ -47,9 +57,15 @@ class BaseService
                 'Message' => $msg,
                 'destination' => self::convertToIranFormat($dest)
             ]);
-
+            Code::create([
+                'dest' => $dest,
+                'code' => $code ,
+                'username' => $cache['name'] ,
+                'type' => $cache['type'] ,
+                'date' => now()
+            ]);
             $msgId = $response->body();
-            return $response->body(); //TODO create table with laravel migration save code and mobile and send date
+            return $response->body();
         }
     }
 }

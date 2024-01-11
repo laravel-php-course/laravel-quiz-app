@@ -16,21 +16,16 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-//TODO delete Bad Routes and convert to Ctrl And routes name
-
 Route::get('/', [SiteController::class, 'Home'])->name('home');
+Route::get('/register', [UserAuthController::class, 'ShowRegisterForm'])->name('user.register');
+Route::get('/logIn', [UserAuthController::class, 'ShowLogInForm'])->name('user.logIn');
+Route::get('/code', [UserAuthController::class, 'ShowCodePage'])->name('user.code');
+Route::get('/logOut', [UserAuthController::class, 'LogOut'])->name('user.logOut');
+Route::get('/resendLogin', [UserAuthController::class , 'handleResendLogin'])->name('user.auth.resendLogin');
+Route::get('/resend', [UserAuthController::class , 'handleResend'])->name('user.auth.resendShow');
 
-Route::get('/register', [UserAuthController::class, 'ShowRegisterForm'])->name('register');
-Route::get('/logIn', function () {
-    return view('LogIn');
-})->name('logIn');
-Route::get('/code', function () {
-    return view('code');
-})->name('code');
-Route::get('/logOut', [UserAuthController::class, 'LogOut'])->name('logOut');
-Route::get('/resend', [UserAuthController::class , 'handleResend']);
-Route::get('/resendLogin', [UserAuthController::class , 'handleResendLogin']);
-
+Route::post('/resendRegister', [UserAuthController::class , 'handleResend'])->name('user.auth.resendRegister');
+Route::post('/resendLogin', [UserAuthController::class , 'handleResendLogin'])->name('user.auth.resendLogin');
 Route::post('/register', [UserAuthController::class,'handleRegister'])->name('user.auth.register');
 Route::post('/code', [UserAuthController::class,'handleCode'])->name('user.auth.code');
 Route::post('/Login', [UserAuthController::class,'handleLogin'])->name('user.auth.login');

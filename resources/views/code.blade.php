@@ -15,8 +15,14 @@
             <label class=" text-gray-500 font-bold mt-4 px-4"  id="timer"></label>
             <input class="input" type="text" name="Code" placeholder="کد را وارد کنید ...">
         </div>
-        <a href="/resend" class="block mr-4 text-gray-400 my-2 text-sm hidden" id="resend"></a>
+
         <input class="btn" type="submit" name="submit" value="ثبت">
+    </form>
+    <form action="{{$resend}}" method="post">
+        @csrf
+        <input class="block mr-4 text-gray-400 my-2 text-sm hidden" id="resend" type="submit" name="submit" value="ارسال دوباره کد">
+        <input type="hidden" value="{{ $destination }}" name="destination">
+
     </form>
 </div>
 </body><script>

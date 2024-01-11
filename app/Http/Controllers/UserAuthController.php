@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\resendRequest;
 use App\Http\Requests\UserAuth\CodeRequest;
 use App\Http\Requests\UserAuth\loginRequest;
 use App\Http\Requests\UserAuth\RegisterRequest;
@@ -28,30 +29,36 @@ class UserAuthController extends Controller
     {
         $field = $request->getField();
         $value = $request->getValue();
-        $name  = $request->input('name') ;
-        $code  = VerificationService::generteCode();
+        $name = $request->input('name');
+        $code = VerificationService::generteCode();
 
         $cacheValue = json_encode(['code' => $code, 'name' => $name, 'type' => $field]);
-        VerificationService::set($value, $cacheValue, 5);
+        VerificationService::set($value, $cacheValue, 10);
         VerificationService::sendCode($value, $field, $code);
 
-        return view('code', ['destination' => $value, 'action' => route('user.auth.code')]);
+        return view('code', ['destination' => $value, 'action' => route('user.auth.code') , 'resend' => route('user.auth.resendRegister')]);
     }
 
     /**
      * @throws InvalidArgumentException
      * @throws Exception
      */
+
+    public function ShowLogInForm()
+    {
+        return view('login');
+    }
     public function handleLogin(loginRequest $request)
     {
         $field = $request->getField();
         $value = $request->getValue();
-        $code  = VerificationService::generteCode();
+        $code = VerificationService::generteCode();
 
-        VerificationService::set($value, $code, 2);
+        $cacheValue = json_encode(['code' => $code, 'name' => 'wasLogin', 'type' => $field]);
+        VerificationService::set($value, $cacheValue, 10);
         VerificationService::sendCode($value, $field, $code);
 
-        return view('code', ['destination' => $value, 'action' => route('user.auth.codeLogin')]);
+        return view('code', ['destination' => $value, 'action' => route('user.auth.codeLogin') , 'resend' => route('user.auth.resendLogin')]);
     }
 
     /**
@@ -60,26 +67,32 @@ class UserAuthController extends Controller
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    public function handleResend(Request $request)
+    public function handleResend(resendRequest $request)
     {
-        $field = session()->get('type');
-        $value = session()->get('name');
+        $result = VerificationService::get($request->input('destination'));
+        $result = json_decode($result, true);
+        $value = $request->input('destination') ;
         $code = VerificationService::generteCode();
-        VerificationService::set($value, $code, 2);
-        VerificationService::sendCode($value, $field, $code);
-        session()->put('name' , $value);
-        return view('code');
+        VerificationService::sendCode($value, $result['type'], $code);
+        VerificationService::delete($request->input('destination'));
+        $cacheValue = json_encode(['code' => $code, 'name' => $result['name'], 'type' => $result['type']]);
+        VerificationService::set($value, $cacheValue, 2);
+        return view('code', ['destination' => $value, 'action' => route('user.auth.code') , 'resend' => route('user.auth.resendRegister')]);
     }
-    public function handleResendLogin(Request $request)
+
+    public function handleResendLogin(resendRequest $request): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $field = session()->get('type');
-        $value = session()->get('name');
+        $result = VerificationService::get($request->input('destination'));
+        $result = json_decode($result, true);
+        $value = $request->input('destination') ;
         $code = VerificationService::generteCode();
-        VerificationService::set($value, $code, 2);
-        VerificationService::sendCode($value, $field, $code);
-        session()->put('name' , $value);
-        return view('codeLogin');
+        VerificationService::sendCode($value, $result['type'], $code);
+        VerificationService::delete($request->input('destination'));
+        $cacheValue = json_encode(['code' => $code, 'name' => $result['name'], 'type' => $result['type']]);
+        VerificationService::set($value, $cacheValue, 2);
+        return view('code', ['destination' => $value, 'action' => route('user.auth.codeLogin') , 'resend' => route('user.auth.resendLogin')]);
     }
+
 
 
 
@@ -89,28 +102,23 @@ class UserAuthController extends Controller
      */
     public function handleCode(CodeRequest $request)
     {
-        $result =  VerificationService::get($request->input('destination'));
-        if (empty($result))
-        {
-            dd('erorr');
-            //TODO error
-            return;
+        $result = VerificationService::get($request->input('destination'));
+        if (empty($result)) {
+            return redirect()->route('home')->with(['codeNotCorrect' => 'کد معتبر نیست']);
         }
 
         $result = json_decode($result, true);
-        if ($request->input('Code') == $result['code'])
-        {
+        if ($request->input('Code') == $result['code']) {
+
             $data = [
                 'name' => $result['name'],
                 'verified_at' => date('Y-m-d H:i:s')
             ];
 
-            if ($result['type'] == 'email')
-            {
+            if ($result['type'] == 'email') {
+
                 $data['email'] = $request->input('destination');
-            }
-            else
-            {
+            } else {
                 $data['mobile'] = $request->input('destination');
             }
 
@@ -118,17 +126,14 @@ class UserAuthController extends Controller
             Auth::login($user);
             VerificationService::delete($request->input('destination'));
             return redirect()->route('home');
-        }
-        else
-        {
-            //TODO error
+        } else {
+            dd($request->input('Code') , $result['code']);
         }
     }
 
     public function LogOut()
     {
-        if (auth()->check())
-        {
+        if (auth()->check()) {
             Auth::logout();
         }
         return redirect()->route('home');
@@ -140,16 +145,19 @@ class UserAuthController extends Controller
      */
     public function handleCodeLogin(CodeRequest $request)
     {
-        $code =  VerificationService::get($request->input('destination'));
-        if ( $request->input('Code') == $code )
-        {
+        $code = VerificationService::get($request->input('destination'));
+        $code = json_decode($code, true);
+        if ($request->input('Code') == $code['code']) {
             $type = filter_var($request->input('destination'), FILTER_VALIDATE_EMAIL) ? 'email' : 'mobile';
-            $user = User::where($type , $request->input('destination'))->first();
-            if ($user){
+            $user = User::where($type, $request->input('destination'))->first();
+            if ($user) {
                 Auth::login($user);
                 return redirect()->route('home');
             }
 
+        }else {
+            dd($request->input('Code') , $code) ;
         }
     }
+
 }
