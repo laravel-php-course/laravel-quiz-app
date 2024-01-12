@@ -142,6 +142,7 @@ class UserAuthController extends Controller
     /**
      * @throws NotFoundExceptionInterface
      * @throws ContainerExceptionInterface
+     * @throws InvalidArgumentException
      */
     public function handleCodeLogin(CodeRequest $request)
     {
@@ -152,6 +153,7 @@ class UserAuthController extends Controller
             $user = User::where($type, $request->input('destination'))->first();
             if ($user) {
                 Auth::login($user);
+                VerificationService::delete($request->input('destination'));
                 return redirect()->route('home');
             }
 
