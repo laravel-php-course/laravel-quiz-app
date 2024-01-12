@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\UserAuth;
 
+use App\Http\Requests\GetValueAndFieldRegisterTrait;
 use App\Rules\MobileRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;

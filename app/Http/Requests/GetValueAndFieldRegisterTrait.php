@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\UserAuth;
+namespace App\Http\Requests;
 
 trait GetValueAndFieldRegisterTrait
 {
