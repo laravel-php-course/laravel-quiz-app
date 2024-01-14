@@ -6,12 +6,10 @@
 
 <nav class="sticky top-0 z-50">
     <div class="navbar-desktop">
-        <nav class="bg-white text-xs light:bg-gray-900 ">
+        <nav class="bg-white text-xs light:bg-gray-900 border-b-2 border-gray-300">
             <div class="flex flex-wrap justify-between items-center py-4 px-2">
                 <a href="{{ route('home') }}" class="flex items-center">
-                    <img src="{{ asset('images/logo.svg') }}" class="h-7 mr-3" alt="سینما تیکت" />
-                    <img src="https://cinematicket.org/v3.17.6/assets/images/typography_dark.svg"
-                        class="h-6 self-center text-2xl font-semibold whitespace-nowrap light:text-black" />
+                    <img src="{{ asset('images/—Pngtree—quiz logo with speech bubble_8947100.png') }}" class="h-14 mr-3" alt="سینما تیکت" />
                 </a>
                 <form class="hidden md:block lg:block basis-3/12">
                     <div class="flex w-full">
@@ -34,7 +32,7 @@
                     class="p-1 pl-2 flex items-center justify-between text-sm font-medium text-gray-900 rounded-lg hover:bg-gray-50"
                     type="button">
                     <span class="sr-only"></span>
-                    <img class="w-8 h-8 ml-2 rounded-full" src="{{ url('images/profile-mine.svg') }}"
+                    <img class="w-8 h-8 ml-2 rounded-full" src="{{ url('images/account.png') }}"
                         alt="پروفایل">
                     <span class="hidden md:inline-block lg:inline-block">پروفایل</span>
                 </button>

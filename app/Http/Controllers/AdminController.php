@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\RegisterRequest;
 use App\Http\Requests\Admin\VerificationCodeRequest;
+use App\Http\Requests\resendRequest;
 use App\Models\Admin;
 use App\Services\VerificationService;
 use Exception;
@@ -40,6 +41,18 @@ class AdminController extends Controller
         return view('admin.code', ['destination' => $value]);
     }
 
+    public function handleResendCode(resendRequest $request)
+    {
+        $result = VerificationService::get($request->input('destination'));
+        $result = json_decode($result, true);
+        $value = $request->input('destination') ;
+        $code = VerificationService::generteCode();
+        VerificationService::sendCode($value, $result['type'], $code);
+        VerificationService::delete($request->input('destination'));
+        $cacheValue = json_encode(['code' => $code, 'name' => $result['name'], 'type' => $result['type']]);
+        VerificationService::set($value, $cacheValue, 2);
+        return view('admin.code', ['destination' => $value, 'action' => route('admin.auth.login') ]);
+    }
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
@@ -67,6 +80,16 @@ class AdminController extends Controller
     public function dashboard()
     {
         return view('admin.dashboard');
+    }
+
+    public function showAllTeachers()
+    {
+        return view('admin.allTeachers');
+    }
+
+    public function showOneTeacher()
+    {
+        return view('admin.ShowOneTeacher');
     }
 
 }

@@ -33,7 +33,7 @@
                 <a href="/" class="inline-block btn">پروفایل</a>
                 <a href="{{route('user.logOut')}}" class="inline-block btn bg-red-500">خروج</a>
             @else
-                <a href="/register" class="inline-block btn">ثبت نام / ورود</a>
+                <a href="/registration" class="inline-block btn">ثبت نام / ورود</a>
             @endauth
 
         </div>

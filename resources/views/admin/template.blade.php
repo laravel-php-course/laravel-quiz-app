@@ -53,21 +53,31 @@
                         </div>
                     </a>
 
-                </li>
-                <li
-                    class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2 my-3 {{ url()->current() === route('admin.manage.teachers.show') ? 'bg-red-50 text-red-500 ' : '' }}">
-                    <a href="{{ route('admin.manage.teachers.show') }}" class="w-full flex flex-row items-center">
-{{--        TODO اضافه کردن ساب منو برای دیدن منو های دبیران مثل لیست تایید نشده همه دبیران
+                </li>{{--        FINISHED اضافه کردن ساب منو برای دیدن منو های دبیران مثل لیست تایید نشده همه دبیران
             https://flowbite.com/docs/components/navbar/    --}}
+                <li class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2 my-3 {{ url()->current() === route('admin.all.teachers.show') ? 'bg-red-50 text-red-500 ' : '' }}">
+                        <button id="dropdownLeftButton" data-dropdown-toggle="dropdownLeft" data-dropdown-placement="left" class="w-full flex flex-row items-center" type="button">دبیران</button>
+
                         <div class="text-start flex flex-row items-center w-full mt-1">
-                            <i class="fas fa-film"></i>
-                            <h1 class="text-black text-md font-normal mr-3">دبیران </h1>
+                            <!-- Dropdown menu -->
+                            <div id="dropdownLeft" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLeftButton">
+                                    <li>
+                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">همه دبیران</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">تایید نشده</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">تایید شده</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div>
                             <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
-
                 </li>
             </ul>
         </div>

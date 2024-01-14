@@ -22,6 +22,7 @@ class UserAuthController extends Controller
         return view('register');
     }
 
+
     /**
      * @throws Exception|InvalidArgumentException
      */
@@ -48,6 +49,7 @@ class UserAuthController extends Controller
     {
         return view('login');
     }
+
     public function handleLogin(loginRequest $request)
     {
         $field = $request->getField();

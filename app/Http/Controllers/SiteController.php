@@ -8,4 +8,8 @@ class SiteController extends Controller
     {
         return view('index');
     }
+    public function registration()
+    {
+        return view('registration');
+    }
 }
