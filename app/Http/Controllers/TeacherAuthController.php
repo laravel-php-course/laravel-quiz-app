@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\registerTeacherRequest;
+use App\Http\Requests\Teacher\registerTeacherRequest;
 use App\Http\Requests\UserAuth\CodeRequest;
-use App\Http\Requests\UserAuth\RegisterRequest;
 use App\Models\Teacher;
-use App\Models\User;
-use App\Rules\MobileRule;
 use App\Services\VerificationService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TeacherAuthController extends Controller
@@ -30,11 +26,10 @@ class TeacherAuthController extends Controller
         $email = $request->input('email');
         $mobile = $request->input('mobile');
         $nationalCode = $request->input('code');
-        $ability = $request->input('ability');
         $code = VerificationService::generteCode();
 
         $cacheValue = json_encode(['code' => $code, 'name' => $name,'email' => $email,'mobile' => $mobile ,'nationalCode' => $nationalCode, 'type' => $field /*, 'ability' => $ability*/]);
-        VerificationService::delete($value);
+//        VerificationService::delete($value);
         VerificationService::set($value, $cacheValue, 10);
         VerificationService::sendCode($value, $field, $code);
 
@@ -57,13 +52,13 @@ class TeacherAuthController extends Controller
                 'email' => $result['email'] ,
                 'mobile' => $result['mobile'] ,
                 'national_code' => $result['nationalCode'] ,
+                'status' => Teacher::PENDING
        /*         'ability' => $result['ability']*/
 
             ];
 
 
-            $user = Teacher::create($data);
-            /*Auth::guard('web')->attempt($user);*/
+            Teacher::create($data);
 
             VerificationService::delete($request->input('destination'));
             return redirect()->route('home');

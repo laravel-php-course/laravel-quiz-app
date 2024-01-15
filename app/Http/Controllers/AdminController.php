@@ -6,6 +6,7 @@ use App\Http\Requests\Admin\RegisterRequest;
 use App\Http\Requests\Admin\VerificationCodeRequest;
 use App\Http\Requests\resendRequest;
 use App\Models\Admin;
+use App\Models\Teacher;
 use App\Services\VerificationService;
 use Exception;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\SimpleCache\InvalidArgumentException;
+use function PHPUnit\Framework\throwException;
 
 class AdminController extends Controller
 {
@@ -82,9 +84,18 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
-    public function showAllTeachers()
+    public function showAllTeachers(Request $request, $type)
     {
-        return view('admin.allTeachers');
+
+        if (!in_array($type, ['UnAccept', 'Suspend']))
+            $status = Teacher::STATUS;
+        elseif ($type == 'UnAccept')
+            $status = [Teacher::PENDING];
+        else
+            $status = [Teacher::SUSPEND];
+
+        $teachers = Teacher::whereIn('status', $status)->get();
+        return view('admin.allTeachers', ['teachers' => $teachers]);
     }
 
     public function showOneTeacher()
@@ -92,4 +103,16 @@ class AdminController extends Controller
         return view('admin.ShowOneTeacher');
     }
 
+    public function handleLogout()
+    {
+        Auth::logout(auth()->user());
+    }
+
+    public function changeStatus(Request $request) //TODO Add ok validation
+    {
+        $teacher = Teacher::find($request->input('id'));
+
+
+        return response($teacher, 400);
+    }
 }

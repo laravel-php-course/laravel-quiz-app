@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('mobile', 13)->unique()->nullable();
             $table->string('national_code', 10)->unique();
             $table->string('verified_code', 6)->nullable();
-            $table->enum('status', Teacher::STATUS);
+            $table->enum('status', Teacher::STATUS)->default(Teacher::PENDING);
             $table->timestamp('verified_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
