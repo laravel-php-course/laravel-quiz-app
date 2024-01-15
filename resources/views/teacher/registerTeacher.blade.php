@@ -14,9 +14,7 @@
         @csrf
         <h1 class="text-2xl text-center">ثبت نام دبیران</h1>
         <h2 class="text-xl text-red-600 text-center">
-@isset($codeNotCorrect)
-                {{$codeNotCorrect}}
-            @endisset
+
         </h2>
         <div class="flex">
             <label class="px-4 mt-4 font-bold text-gray-500 ">نام و نام خوانوادگی</label>
@@ -54,6 +52,11 @@
         <div class="flex">
             <label class="px-4 mt-4 font-bold text-gray-500 ">کد ملی</label>
             <input class="input" type="text" name="code">
+            @error('code')
+            <div class="text-red-500">
+                {{ $message }}
+            </div>
+            @enderror
         </div>
    {{--     <div class="flex">
             <label class="px-4 mt-4 font-bold text-gray-500 ">مهارت</label>

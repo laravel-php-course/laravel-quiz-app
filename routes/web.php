@@ -50,12 +50,13 @@ Route::prefix('/teacher')->group(function () {
 Route::prefix('/admin')->group(function () {
     Route::get('/login', [AdminController::class, 'showLoginForm'])->name('admin.auth.show.login');
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/teachers/show', [AdminController::class, 'showAllTeachers'])->name('admin.all.teachers.show');
-    Route::get('/teachers/showOne', [AdminController::class, 'showOneTeacher'])->name('admin.one.teacher.show');
+    Route::get('/teachers/show/type/{type}', [AdminController::class, 'showAllTeachers'])->name('admin.all.teachers.show');
+    Route::get('/teachers/showOne/{id}', [AdminController::class, 'showOneTeacher'])->name('admin.one.teacher.show');
     Route::post('/login', [AdminController::class, 'handleLogin'])->name('admin.auth.login');
     Route::post('/verification', [AdminController::class,'handleVerificationCode'])->name('admin.auth.verification.code');
     Route::post('/resendcode', [AdminController::class , 'handleResendCode'])->name('admin.auth.resend.code')->middleware('throttle:2,1');
-
+    Route::get('/logout', [AdminController::class, 'handleLogout'])->middleware('auth')->name('admin.logout');
+    Route::post('/teachers/changeStatus', [AdminController::class, 'changeStatus'])->name('admin.change.status.teacher');
 });
 
 //Route::get('/test/throttle', function (\Illuminate\Http\Request $request) {

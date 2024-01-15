@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Teacher;
 
+use App\Http\Requests\GetValueAndFieldRegisterTrait;
 use App\Rules\MobileRule;
 use App\Rules\Nationalcode;
 use Illuminate\Foundation\Http\FormRequest;
@@ -25,11 +26,11 @@ class registerTeacherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'type' => 'required|in:email,mobile',
-            'email' => 'required|email' ,
-            'mobile' => 'required|numeric' ,
-            'code' => 'required|numeric' ,
+            'name'   => 'required',
+            'type'   => 'required|in:email,mobile',
+            'email'  => 'required|email' ,
+            'mobile' => ['required', 'numeric', new MobileRule()],
+            'code'   => ['required', 'numeric', new Nationalcode()],
             /*'ability' => 'required|'*/
         ];
     }
