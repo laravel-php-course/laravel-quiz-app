@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\RegisterRequest;
 use App\Http\Requests\Admin\VerificationCodeRequest;
+use App\Http\Requests\changeTeacherStatusRequest;
 use App\Http\Requests\resendRequest;
 use App\Models\Admin;
 use App\Models\Teacher;
@@ -108,7 +109,7 @@ class AdminController extends Controller
         Auth::logout(auth()->user());
     }
 
-    public function changeStatus(Request $request) //TODO Add ok validation
+    public function changeStatus(changeTeacherStatusRequest $request)
     {
         $teacher = Teacher::find($request->input('id'));
 

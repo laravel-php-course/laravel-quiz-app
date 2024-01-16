@@ -16,12 +16,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-//TODO combine resend code in register and login to one ctrl
-//FINISHED Add throttle middleware to needed routes
-//FINISHED Add view all teachers and un accepted teachers ui
-//FINISHED Style navbar correctly
-//FINISHED add template for admin profile
-//TODO اضافه کردن روت لاگین برای دبیران و ثبت نام انها با گرفتن همه ثبت نام از دبیران نوشتن ولیدیشن مناسب برای کدملی و گرفتن ایمیل و موبایل بطور همزمان و داشتن رادیو بات برای تعیین نوع احراز هویت با ایمیل یا موبایل اضافه کردن تمپلیت جدید برای ثبت نام دبیران پیامک
 Route::get('/', [SiteController::class, 'Home'])->name('home');
 Route::get('/registration', [SiteController::class, 'registration'])->name('registration');
 Route::get('/register', [UserAuthController::class, 'ShowRegisterForm'])->name('user.register');
@@ -44,7 +38,10 @@ Route::prefix('/teacher')->group(function () {
     Route::post('/register', [TeacherAuthController::class,'handleRegister'])->name('teacher.auth.register');
     Route::post('/login', [TeacherAuthController::class,'handleRegister'])->name('teacher.auth.login');
     Route::post('/code', [TeacherAuthController::class,'handleCode'])->name('teacher.auth.code');
-    Route::post('/resend', [TeacherAuthController::class,'handleCode'])->name('teacher.auth.resendRegister');
+    Route::post('/resendRegister', [TeacherAuthController::class,'handleResendRegister'])->name('tar');
+    Route::post('/resend', [TeacherAuthController::class,'handleResendLogin'])->name('teacher.auth.resendLogin');
+     Route::post('/Login', [TeacherAuthController::class,'handleLogin'])->name('teacher.auth.login');
+    Route::post('/CodeLogin', [TeacherAuthController::class,'handleCodeLogin'])->name('teacher.auth.codeLogin')->middleware('throttle:5,1');
 });
 
 Route::prefix('/admin')->group(function () {

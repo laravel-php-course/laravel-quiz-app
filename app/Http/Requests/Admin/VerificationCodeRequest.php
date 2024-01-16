@@ -23,7 +23,7 @@ class VerificationCodeRequest extends FormRequest
     public function rules(): array
     {
         return  [
-            'Code' => 'required', //TODO Add another rules for check length code between VerificationService min & max
+            'Code' => 'required | max:7 | min:6',
             'destination' => 'required'
         ];
     }

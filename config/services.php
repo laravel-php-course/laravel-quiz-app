@@ -36,6 +36,7 @@ return [
         'username' => env('SMS_SERVICE_USERNAME', 'farzad1forouzanfar'),
         'password' => env('SMS_SERVICE_PASSWORD', 'F@rzad306762'),
         'source' => env('SMS_SERVICE_SOURCE_NUMBER', '98210000925306762') ,
-        'template' => env('SMS_TEMPLATE', 'کاربر گرامی NAME عزیز با شماره موبایل MOBILE ورود شما را به سایت کویزر خوش آمد میگویم کد ورود شما به سایت : CODE است ')
+        'template' => env('SMS_TEMPLATE', 'کاربر گرامی NAME عزیز با شماره موبایل MOBILE ورود شما را به سایت کویزر خوش آمد میگویم کد ورود شما به سایت : CODE است ') ,
+        'teacherTemplate' => env('SMS_TEMPLATE_TEACHER' , 'استاد گرامی NAME گرامی با شماره موبایل MOBILE ورود شما به سایت کویزر را مفتخر هستیم کد ورود شما به سایت CODE است ')
     ]
 ];

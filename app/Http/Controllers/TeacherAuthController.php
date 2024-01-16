@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\resendRequest;
 use App\Http\Requests\Teacher\registerTeacherRequest;
 use App\Http\Requests\UserAuth\CodeRequest;
+use App\Http\Requests\UserAuth\loginRequest;
 use App\Models\Teacher;
+use App\Models\User;
 use App\Services\VerificationService;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,11 +32,11 @@ class TeacherAuthController extends Controller
         $code = VerificationService::generteCode();
 
         $cacheValue = json_encode(['code' => $code, 'name' => $name,'email' => $email,'mobile' => $mobile ,'nationalCode' => $nationalCode, 'type' => $field /*, 'ability' => $ability*/]);
-//        VerificationService::delete($value);
+        VerificationService::delete($value);
         VerificationService::set($value, $cacheValue, 10);
         VerificationService::sendCode($value, $field, $code);
 
-        return view('code', ['destination' => $value, 'action' => route('teacher.auth.code') , 'resend' => route('teacher.auth.resendRegister')]);
+        return view('code', ['destination' => $value, 'action' => route('teacher.auth.code') , 'resend' => '/teacher/resend']);
     }
 
     public function handleCode(CodeRequest $request)
@@ -66,5 +69,66 @@ class TeacherAuthController extends Controller
             dd($request->input('Code') , $result['code']);
         }
     }
+
+    public function handleLogin(loginRequest $request)
+    {
+        $field = $request->getField();
+        $value = $request->getValue();
+        $code = VerificationService::generteCode();
+
+        $cacheValue = json_encode(['code' => $code, 'name' => 'wasLogin', 'type' => $field]);
+        VerificationService::delete($value);
+        VerificationService::set($value, $cacheValue, 10);
+        VerificationService::sendCode($value, $field, $code);
+
+        return view('code', ['destination' => $value, 'action' => route('teacher.auth.codeLogin') , 'resend' => route('teacher.auth.resendLogin')]);
+    }
+
+    public function handleCodeLogin(CodeRequest $request)
+    {
+        $code = VerificationService::get($request->input('destination'));
+        $code = json_decode($code, true);
+        if ($request->input('Code') == $code['code']) {
+            $type = filter_var($request->input('destination'), FILTER_VALIDATE_EMAIL) ? 'email' : 'mobile';
+            $user = Teacher::where($type, $request->input('destination'))->first();
+            if ($user->status == 'Active') {
+                Auth::login($user);
+                VerificationService::delete($request->input('destination'));
+                return redirect()->route('home');
+            }else{
+                return redirect()->route('teacher.logIn')->with('LoginMassage' , 'شما در حالت انتظار ایید هستید برای اطلاعات بیشتر با پشتیبانی تماس بگیرید');
+            }
+            //please check why `with()` is not working
+
+        }else {
+            dd($request->input('Code') , $code) ;
+        }
+    }
+    public function handleResendRegister(resendRequest $request)
+    {
+        $result = VerificationService::get($request->input('destination'));
+        $result = json_decode($result, true);
+        $value = $request->input('destination') ;
+        $code = VerificationService::generteCode();
+        VerificationService::sendCode($value, $result['type'], $code);
+        $cacheValue = json_encode(['code' => $code, 'name' => $result['name'],'email' => $result['email'],'mobile' => $result['mobile'] ,'nationalCode' => $result['nationalCode'], 'type' => $result['type'] /*, 'ability' => $ability*/]);
+        VerificationService::delete($request->input('destination'));
+        VerificationService::set($value, $cacheValue, 2);
+        return view('code', ['destination' => $value, 'action' => route('teacher.auth.code') , 'resend' => route('tar') ]);
+    }
+
+    public function handleResendLogin(resendRequest $request): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        $result = VerificationService::get($request->input('destination'));
+        $result = json_decode($result, true);
+        $value = $request->input('destination') ;
+        $code = VerificationService::generteCode();
+        VerificationService::sendCode($value, $result['type'], $code);
+        VerificationService::delete($request->input('destination'));
+        $cacheValue = json_encode(['code' => $code, 'name' => $result['name'], 'type' => $result['type']]);
+        VerificationService::set($value, $cacheValue, 2);
+        return view('code', ['destination' => $value, 'action' => route('teacher.auth.codeLogin') , 'resend' => route('teacher.auth.resendLogin')]);
+    }
+
 
 }
