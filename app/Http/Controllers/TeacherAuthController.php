@@ -64,7 +64,12 @@ class TeacherAuthController extends Controller
             Teacher::create($data);
 
             VerificationService::delete($request->input('destination'));
-            return redirect()->route('home');
+            $message = "اکانت شما با موفقیت ایجاد شد لطفا تا اطلاع رسانی بعدی و تایید حساب خود توسط ادمین منتظر بمانید";
+            return view('notification')->with([
+                'message' => $message,
+                'type'    => 'success',
+                'link'    => ['url' => route('teacher.logIn'), 'title' => "ورود به حساب کاربری"]
+            ]);
         } else {
             dd($request->input('Code') , $result['code']);
         }

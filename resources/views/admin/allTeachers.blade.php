@@ -50,8 +50,9 @@
                             </div>
                         </th>
                         <td class="px-6 py-4">
-                            <div class="flex items-center">
-                                <div class="h-2.5 w-2.5 rounded-full {{ \App\Models\Teacher::getStatusIcon($teacher->status) }} me-2"></div>
+                            <div id="status-container-{{ $teacher->id }}" class="flex items-center">
+                                <div class="h-2.5 w-2.5 rounded-full me-1 {{ \App\Models\Teacher::getStatusIcon($teacher->status) }}">
+                                </div>
                                 <span>
                                     {{ \App\Models\Teacher::getPersianStatus($teacher->status) }}
                                 </span>
@@ -108,7 +109,10 @@
                 },
                 url: '{{ route('admin.change.status.teacher') }}',
                 success: (response) => {
-                    console.log(response);
+                    const classList = document.querySelector(`#status-container-${id} div`).classList;
+
+                    $(`#status-container-${id} div`).removeClass(classList[classList.length - 1]).addClass(response.icon);
+                    $(`#status-container-${id} span`).text(response.title);
                 },
                 error: (xhr, status, code) => {
                     console.log(xhr);

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\ChangeStatusRequest;
 use App\Http\Requests\Admin\RegisterRequest;
 use App\Http\Requests\Admin\VerificationCodeRequest;
-use App\Http\Requests\changeTeacherStatusRequest;
 use App\Http\Requests\resendRequest;
 use App\Models\Admin;
 use App\Models\Teacher;
@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Log;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\SimpleCache\InvalidArgumentException;
-use function PHPUnit\Framework\throwException;
 
 class AdminController extends Controller
 {
@@ -70,7 +69,7 @@ class AdminController extends Controller
             $admin = Admin::where($type, $request->input('destination'))->first();
             if ($admin) {
 //                dd($admin);
-                Auth::login($admin);
+                Auth::guard('admin')->login($admin);
                 VerificationService::delete($request->input('destination'));
                 return redirect()->route('admin.dashboard');
             }
@@ -106,14 +105,21 @@ class AdminController extends Controller
 
     public function handleLogout()
     {
-        Auth::logout(auth()->user());
+        Auth::guard('admin')->logout();
+        return redirect(route('admin.auth.show.login'));
     }
 
-    public function changeStatus(changeTeacherStatusRequest $request)
+    public function changeStatus(ChangeStatusRequest $request)
     {
-        $teacher = Teacher::find($request->input('id'));
+        $teacher         = Teacher::find($request->input('id'));
+        $teacher->status = $request->input('action');
 
+        $teacher->save();
 
-        return response($teacher, 400);
+        return response([
+            'message' => "وضعیت با موفقیت تغییر کرد",
+            'icon'    => Teacher::getStatusIcon($teacher->status),
+            'title'   => Teacher::getPersianStatus($teacher->status)
+        ], 200);
     }
 }

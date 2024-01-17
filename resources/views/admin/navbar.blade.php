@@ -54,7 +54,7 @@
                         </li>
                     </ul>
                     <div class="p-2">
-                        <a id="logout-btn"
+                        <a href="{{ route('admin.logout') }}" id="logout-btn"
                             class="cursor-pointer flex items-center p-4 text-sm text-gray-700 rounded-lg hover:bg-gray-50 text-gray-200">
                             <i class="fas fa-arrow-right-from-bracket ml-3"></i>
                             <span class="pt-1">خروج از حساب کاربری</span>

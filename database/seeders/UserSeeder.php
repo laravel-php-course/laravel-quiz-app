@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
         if (User::count())
             User::truncate();
 
-        $farzad = User::factory(1)->create([
+        $farzad = User::create([
             'name' => 'FarzadUser',
             'email' => 'Farzad@mail.com',
             'mobile' => '09152363485',
@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
         ]);
         $this->command->info('created' . $farzad .' user');
 
-        $Kourosh = User::factory(1)->create([
+        $Kourosh = User::create([
             'name' => 'KouroshUser',
             'email' => 'Kourosh@mail.com',
             'mobile' => '09150885270',
