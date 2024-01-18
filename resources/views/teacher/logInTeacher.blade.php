@@ -10,9 +10,9 @@
 <div class=" flex justify-center h-screen">
     <form action="{{ route('teacher.auth.login') }}" method="post" class="p-8 m-auto bg-white rounded">
         @csrf
-        @isset($LoginMassage)
-        <h2 class="2xl text-red-600">{{$LoginMassage}}</h2>
-        @endisset
+        @if(session()->get('LoginMassage') !== null)
+        <h2 class="2xl text-red-600">{{ session()->get('LoginMassage') }}</h2>
+        @endif
         <div class="flex">
             <label class="px-4 font-bold text-gray-500 ">ایمیل</label>
             <input {{ old('type') == 'mobile' ? '' : 'checked' }} class="" type="radio" value="email" name="type" id="email">

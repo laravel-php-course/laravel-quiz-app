@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Auth;
 
 class TeacherAuthController extends Controller
 {
+    public function dashboard ()
+    {
+        return view('teacher.dashboard ');
+    }
+
     public function ShowLogInForm()
     {
         return view('teacher.loginTeacher');
@@ -95,11 +100,11 @@ class TeacherAuthController extends Controller
         $code = json_decode($code, true);
         if ($request->input('Code') == $code['code']) {
             $type = filter_var($request->input('destination'), FILTER_VALIDATE_EMAIL) ? 'email' : 'mobile';
-            $user = Teacher::where($type, $request->input('destination'))->first();
-            if ($user->status == 'Active') {
-                Auth::login($user);
+            $teacher = Teacher::where($type, $request->input('destination'))->first();
+            if ($teacher->status == Teacher::ACTIVE) {
+                Auth::guard('teacher')->login($teacher);
                 VerificationService::delete($request->input('destination'));
-                return redirect()->route('home');
+                return redirect()->route('teacher.dashboard');
             }else{
                 return redirect()->route('teacher.logIn')->with('LoginMassage' , 'شما در حالت انتظار ایید هستید برای اطلاعات بیشتر با پشتیبانی تماس بگیرید');
             }
