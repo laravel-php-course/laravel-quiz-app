@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\QuizController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\TeacherAuthController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,14 +35,19 @@ Route::post('/CodeLogin', [UserAuthController::class,'handleCodeLogin'])->name('
 
 
 Route::prefix('/teacher')->group(function () {
+    /* GET */
     Route::get('/register', [TeacherAuthController::class, 'ShowRegisterForm'])->name('teacher.register');
     Route::get('/login', [TeacherAuthController::class, 'ShowLogInForm'])->name('teacher.logIn');
+    Route::get('/dashboard', [TeacherAuthController::class, 'dashboard'])->middleware(['checkActiveTeacher', 'checkRole:teacher'])->name('teacher.dashboard');
+    Route::get('add/quiz', [TeacherController::class, 'ShowQuizCreateForm'])->middleware(['checkActiveTeacher', 'checkRole:teacher'])->name('teacher.add.quiz');
+
+    /* POST */
     Route::post('/register', [TeacherAuthController::class,'handleRegister'])->name('teacher.auth.register');
     Route::post('/login', [TeacherAuthController::class,'handleRegister'])->name('teacher.auth.login');
     Route::post('/code', [TeacherAuthController::class,'handleCode'])->name('teacher.auth.code');
     Route::post('/resendRegister', [TeacherAuthController::class,'handleResendRegister'])->name('tar');
     Route::post('/resend', [TeacherAuthController::class,'handleResendLogin'])->name('teacher.auth.resendLogin');
-     Route::post('/Login', [TeacherAuthController::class,'handleLogin'])->name('teacher.auth.login');
+    Route::post('/Login', [TeacherAuthController::class,'handleLogin'])->name('teacher.auth.login');
     Route::post('/CodeLogin', [TeacherAuthController::class,'handleCodeLogin'])->name('teacher.auth.codeLogin')->middleware('throttle:5,1');
 });
 
@@ -52,10 +59,17 @@ Route::prefix('/admin')->group(function () {
     Route::post('/login', [AdminController::class, 'handleLogin'])->name('admin.auth.login');
     Route::post('/verification', [AdminController::class,'handleVerificationCode'])->name('admin.auth.verification.code');
     Route::post('/resendcode', [AdminController::class , 'handleResendCode'])->name('admin.auth.resend.code')->middleware('throttle:2,1');
-    Route::get('/logout', [AdminController::class, 'handleLogout'])->middleware('auth')->name('admin.logout');
+    Route::get('/logout', [AdminController::class, 'handleLogout'])->middleware('checkRole:admin')->name('admin.logout');
     Route::post('/teachers/changeStatus', [AdminController::class, 'changeStatus'])->name('admin.change.status.teacher');
 });
 
+Route::prefix('/quiz')->group(function() {
+   /* GET */
+
+   /* POST */ //TODO Add 'throttle:2,1' to config
+    Route::post('/add', [QuizController::class, 'Create'])->middleware(['throttle:10,1', 'checkRole:admin,teacher'])
+    ->name('quiz.add');
+});
 //Route::get('/test/throttle', function (\Illuminate\Http\Request $request) {
 //    dd($request);
 //})->middleware('throttle:2,1');
