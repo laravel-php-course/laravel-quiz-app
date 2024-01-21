@@ -82,7 +82,7 @@
             </div>`;
 
                 let answer_element = '';
-                for (let j = 1; j <= 4; j++) {
+                for (let j = 0; j < 4; j++) {
                     answer_element += `
                 <div id="answer-${i}-${j}" class="flex my-2">
                     <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-gray-300 rounded-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
