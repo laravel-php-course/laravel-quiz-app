@@ -14,18 +14,17 @@ class CheckRole
      *
      * @param Closure(Request): (Response) $next
      */
-    public function handle(Request $request, Closure $next, $role): Response
+    public function handle(Request $request, Closure $next, ...$role): Response
     {
-//        dd($role);
-        if ($role === 'user' && Auth::check())
+        if (in_array('user', $role) && Auth::check())
         {
             return $next($request);
         }
-        elseif ($role === 'admin' && Auth::guard('admin')->check())
+        elseif (in_array('admin', $role) && Auth::guard('admin')->check())
         {
             return $next($request);
         }
-        elseif ($role === 'teacher' && Auth::guard('teacher')->check())
+        elseif (in_array('teacher', $role) && Auth::guard('teacher')->check())
         {
             return $next($request);
         }
