@@ -73,12 +73,33 @@
                                     </li>
                                 </ul>
                             </div>
+
                         </div>
                         <div>
                             <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
                         </div>
                     </a>
                 </li>
+                <li class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2 my-3 ">
+                    <button id="dropdownLeftButtone" data-dropdown-toggle="dropdownLefte" data-dropdown-placement="left" class="w-full flex flex-row items-center" type="button">امتحانات</button>
+
+                    <div id="dropdownLefte" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLeftButtone">
+                            <li>
+                                <a href="{{ route('admin.all.teachers.show', ['type' => 'All']) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">فهرست همه</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.add.quiz') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">افزودن</a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+        <div>
+            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
+        </div>
+        </a>
+        </li>
             </ul>
         </div>
         <div class="basis-10/12">

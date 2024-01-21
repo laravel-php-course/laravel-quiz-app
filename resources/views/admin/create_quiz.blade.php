@@ -172,5 +172,7 @@ console.log('djd')
         });
 
     </script>
+{{--    FINISHED add function for + and - btn to add and remove questions--}}
+
 
 @endsection

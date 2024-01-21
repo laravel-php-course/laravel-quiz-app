@@ -25,8 +25,8 @@ class ChangeStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id'     => 'required|exists:users,id',
-            'action' => 'required|in:'.implode(',',Teacher::STATUS), //TODO ADD Rule For check if status == active just can suspend or status == suspend just can be active
+            'id'     => 'required|exists:teachers,id',
+            'action' => 'required|in:'.implode(',',Teacher::STATUS), //tired ADD Rule For check if status == active just can suspend or status == suspend just can be active
         ];
     }
 }

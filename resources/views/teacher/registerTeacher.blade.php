@@ -76,23 +76,7 @@
 
 </html>
 <script>
-    const emailInput = document.getElementById('email');
-    const mobileInput = document.getElementById('mobile');
 
-    emailInput.addEventListener('click', (event) => {
-        document.querySelector('#email-container').classList.add('flex');
-        document.querySelector('#email-container').classList.remove('hidden');
-
-        document.querySelector('#mobile-container').classList.add('hidden');
-        document.querySelector('#mobile-container').classList.remove('flex');
-    });
-    mobileInput.addEventListener('click', (event) => {
-        document.querySelector('#mobile-container').classList.add('flex');
-        document.querySelector('#mobile-container').classList.remove('hidden');
-
-        document.querySelector('#email-container').classList.add('hidden');
-        document.querySelector('#email-container').classList.remove('flex');
-    });
     document.querySelector('input.submit').addEventListener('click', (event) => {
         document.querySelector('.loader').classList.remove('hidden')
         document.querySelector('div.submitLoader').classList.add('bg-gray-300')
