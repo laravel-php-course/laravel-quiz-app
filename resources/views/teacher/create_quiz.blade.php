@@ -35,11 +35,10 @@
                                 <option value="3">دیتابیس</option>
                             </select>
                     </div>
-                    </div>
 
                     <div class="mx-5">
-                        <button  type="button" class="px-4 py-2 text-white bg-green-500 rounded-full"> + </button>
-                        <button type="button" class="px-4 py-2 text-white bg-red-500 rounded-full"> - </button>
+                        <button type="button" class="px-4 py-2 text-white bg-green-500 rounded-full" id="addQuestion"> + </button>
+                        <button type="button" class="px-4 py-2 text-white bg-red-500 rounded-full"  id="removeQuestion"> - </button>
                     </div>
                 </div>
                 <div class="block w-full w-100" id="question-container">
@@ -68,16 +67,10 @@
                     <input class="px-4 py-2 text-white bg-blue-500 rounded-md" type="submit" value="ثبت اطلاعات">
                 </div>
             </form>
-            <div class="mx-5">
-                <button class="px-4 py-2 text-white bg-green-500 rounded-full" id="addQuestion"> + </button>
-                <button class="px-4 py-2 text-white bg-red-500 rounded-full"  id="removeQuestion"> - </button>
-            </div>
         </div>
     </section>
 
     <script>
-        let countQuestion = 0;
-
         let countQuestion = 0;
 
         const createQuestion = (count) => {
@@ -152,6 +145,7 @@
             document.querySelector('#question-container').innerHTML = '';
             $('#question-container').empty();
             createQuestion(event.target.value);
+            countQuestion = parseInt(event.target.value);
 
         });
         $('#addQuestion').on('click', (event) => {
