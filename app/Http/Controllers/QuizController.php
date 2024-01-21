@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Quiz\CreateQuizRequest;
 use App\Http\Requests\Quize\createQuizeRequest;
-use App\Models\Admin;
 use App\Models\Answer;
-use App\Models\Code;
 use App\Models\Question;
 use App\Models\Quiz;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
 {
