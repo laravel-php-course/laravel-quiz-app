@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\VerificationCodeRequest;
 use App\Http\Requests\resendRequest;
 use App\Models\Admin;
 use App\Models\Teacher;
+use App\Services\sendEmail;
 use App\Services\VerificationService;
 use Exception;
 use Illuminate\Http\Request;
@@ -115,7 +116,7 @@ class AdminController extends Controller
         $teacher->status = $request->input('action');
 
         $teacher->save();
-
+sendEmail::send($teacher->email , 'وضعیت شما در سایت تعغییر کرد لطفا سایت رو چک کنید');
         return response([
             'message' => "وضعیت با موفقیت تغییر کرد",
             'icon'    => Teacher::getStatusIcon($teacher->status),

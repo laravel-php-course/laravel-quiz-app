@@ -94,6 +94,12 @@ class TeacherAuthController extends Controller
         return view('code', ['destination' => $value, 'action' => route('teacher.auth.codeLogin') , 'resend' => route('teacher.auth.resendLogin')]);
     }
 
+    public function handleLogout()
+    {
+        Auth::guard('teacher')->logout();
+        return redirect(route('home'));
+    }
+
     public function handleCodeLogin(CodeRequest $request)
     {
         $code = VerificationService::get($request->input('destination'));

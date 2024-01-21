@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class Question extends Model
 {
     use HasFactory;
-
+    protected $guarded = [];
     public function quiz(): BelongsTo
     {
         return $this->belongsTo(Quiz::class);

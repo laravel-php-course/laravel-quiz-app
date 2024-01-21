@@ -29,12 +29,15 @@
             </a>
         </div>
         <div>
-            @auth()
+            @if(auth()->check())
                 <a href="/" class="inline-block btn">پروفایل</a>
                 <a href="{{route('user.logOut')}}" class="inline-block btn bg-red-500">خروج</a>
+            @elseif(auth()->guard('teacher')->check())
+                <a href="teacher/dashboard" class="inline-block btn">  استاد پروفایل</a>
+                <a href="{{route('teacher.auth.Logout')}}" class="inline-block btn bg-red-500">خروج</a>
             @else
                 <a href="/registration" class="inline-block btn">ثبت نام / ورود</a>
-            @endauth
+            @endif
 
         </div>
     </div>
