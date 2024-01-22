@@ -7,39 +7,68 @@ use App\Http\Requests\Quize\createQuizeRequest;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Quiz;
+use App\Services\BaseService;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class QuizController extends Controller
 {
-    public function Create(createQuizeRequest $request)
+    public function Create(createQuizRequest $request)
     {
-        $teacherORadmin = '';
-        if (auth()->guard('admin')->check())
-            $teacherORadmin = 'admin' ;
-        elseif (auth()->guard('teacher')->check())
-            $teacherORadmin = 'teacher' ;
+//        dd($request->all());
+        $creatorType = BaseService::getCreatorType();
 
+        try {
+            DB::beginTransaction();
 
-        Quiz::create([
-            'title' => $request->input('quiz_title'),
-            'creator_type' => $teacherORadmin ,
-            'creator_id' => Auth()->guard($teacherORadmin)->user()->id ,
-            'category_id' => $request->input('categories')
-        ]);
-         $quiz = Quiz::where('title',$request->input('quiz_title'))->where('creator_type' , $teacherORadmin )->where('creator_id' , Auth()->guard($teacherORadmin)->user()->id )->where('category_id' , $request->input('categories') )->first();
-        for ($i = 1; $i <= $request->input('countQuestion'); $i++) {
-        Question::create([
-            'title' => $request->input("question_title_$i"),
-            'quiz_id' => $quiz->id ,
-        ]);
-            $Question = Question::where('title',$request->input("question_title_$i"))->where('quiz_id' , $quiz->id )->first();
-            for ($j = 0; $j < 4; $j++) {
-                dd($request->input("true_answer_$i" , []) , $j , $i);
-            Answer::create([
-                'question_id' => $Question->id ,
-                'body' => $request->input("answer_${i}_${j}_title"),
-                'is_true_answer' => $request->input("true_answer_$i"),
-]);
-        }}
-dd('kk');
+            $quiz = Quiz::create([
+                'title'            => $request->input('quiz_title'),
+                'creator_type'     => $creatorType[0] ,
+                'creator_id'       => auth()->guard($creatorType[1])->id(),
+                'category_id'      => $request->input('categories'),
+                'total_questions'  => $request->input('countQuestion')
+            ]);
+
+            foreach ($request->input('questions') as $q)
+            {
+                $question = Question::create([
+                    'title'   => $q['title'],
+                    'quiz_id' => $quiz->id ,
+                ]);
+
+                foreach ($q['answers'] as $key => $bodyAnswer)
+                {
+                    Answer::create([
+                        'question_id'    => $question->id ,
+                        'body'           => $bodyAnswer,
+                        'is_true_answer' => $q["true_answer"] == $key
+                    ]);
+                }
+            }
+//            for ($i = 1; $i <= $request->input('countQuestion'); $i++)
+//            {
+//                $question = Question::create([
+//                    'title'   => $request->input("question_title_$i"),
+//                    'quiz_id' => $quiz->id ,
+//                ]);
+//                for ($j = 0; $j < 4; $j++)
+//                {
+//                    Answer::create([
+//                        'question_id'    => $question->id ,
+//                        'body'           => $request->input("answer_${i}_${j}_title"),
+//                        'is_true_answer' => $request->input("true_answer_$i"),
+//                    ]);
+//                }
+//            }
+
+            DB::commit();
+            dd('سوالات با موفقیت اد شد'); //TODO Fix UI
+        }
+        catch (\Exception $exception)
+        {
+            DB::rollBack();
+            Log::error("Error On Call Create Quiz, Message:{$exception->getMessage()} Questions: ". print_r($request->input('questions'), true) ." Answers: ". print_r($request->input('answers'), true) .", Params: " . print_r($request->all(), true));
+            return redirect()->back()->withErrors('مشکلی رخ داده لطفا با پشتیبانی تماس بگیرید'); //TODO Show Message
+        }
     }
 }

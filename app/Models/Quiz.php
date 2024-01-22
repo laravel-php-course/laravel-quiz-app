@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\BaseService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -32,5 +33,14 @@ class Quiz extends Model
     public function creator(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public static function getCreator($count = 5)
+    {
+        $creator_type = BaseService::getCreatorType();
+         return self::where([
+            'creator_type' => $creator_type[0],
+            'creator_id' => auth()->guard($creator_type[1])->id()
+        ])->paginate($count);
     }
 }

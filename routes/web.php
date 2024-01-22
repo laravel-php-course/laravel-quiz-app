@@ -40,6 +40,7 @@ Route::prefix('/teacher')->group(function () {
     Route::get('/login', [TeacherAuthController::class, 'ShowLogInForm'])->name('teacher.logIn');
     Route::get('/dashboard', [TeacherAuthController::class, 'dashboard'])->middleware(['checkActiveTeacher', 'checkRole:teacher'])->name('teacher.dashboard');
     Route::get('add/quiz', [TeacherController::class, 'ShowQuizCreateForm'])->middleware(['checkActiveTeacher', 'checkRole:teacher'])->name('teacher.add.quiz');
+    Route::get('teachers/quiz/showAll', [TeacherController::class, 'ShowAllQuiz'])->middleware(['checkActiveTeacher', 'checkRole:teacher'])->name('teacher.show.all.quiz');
 
     /* POST */
     Route::post('/register', [TeacherAuthController::class,'handleRegister'])->name('teacher.auth.register');
@@ -69,7 +70,7 @@ Route::prefix('/quiz')->group(function() {
    /* GET */
 
    /* POST */ //
-    Route::post('/add', [QuizController::class, 'Create'])->middleware(['throttle:config("services.throttle.time"),config("services.throttle.minute")', 'checkRole:teacher'])
+    Route::post('/add', [QuizController::class, 'Create'])->middleware(['throttle:'.config("services.throttle.time").','.config("services.throttle.minute"), 'checkRole:teacher'])
     ->name('quiz.add');
 });
 //Route::get('/test/throttle', function (\Illuminate\Http\Request $request) {

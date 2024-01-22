@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class Answer extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 
     public function actions(): MorphMany
     {
