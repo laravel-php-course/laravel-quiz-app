@@ -35,12 +35,9 @@ class CreateQuizRequest extends FormRequest
                 $rules["questions.{$key}.answers.{$index}"] = 'required|string|max:255';
             }
 
-            $rules["questions.{$key}.true_answer"] = 'required|numeric|in:1,2,3,4';
+            $rules["questions.{$key}.true_answer"] = 'required|numeric|in:0,1,2,3';
         }
-        $validator = Validator::make($this->all(), $rules);
 
-
-        dd($rules, $this->all(), $validator->fails(), $validator->errors());
         return $rules;
     }
 }

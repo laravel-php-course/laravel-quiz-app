@@ -59,7 +59,7 @@
                             <div id="dropdownLeft" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLeftButton">
                                     <li>
-                                        <a href="{{ route('admin.all.teachers.show', ['type' => 'All']) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">فهرست همه</a>
+                                        <a href="{{ route('teacher.show.all.quiz') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">فهرست همه</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('teacher.add.quiz') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">افزودن</a>

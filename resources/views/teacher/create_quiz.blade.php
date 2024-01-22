@@ -3,7 +3,10 @@
 @section('title')
     ایجاد امتحان
 @endsection
-
+{{--@php--}}
+{{--if (!empty($errors->all()))--}}
+{{--    dd($errors->all());--}}
+{{--@endphp--}}
 @section('content')
     <section class="p-4">
         <div class="px-2 py-3 bg-white rounded-md shadow-sm">
@@ -22,7 +25,8 @@
                     <div class="">
                         <label for="total-question" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">تعداد سوال درخواستی</label>
                         <select id="total-question" name="quize_count" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
                             <option value="5">5</option>
                             <option value="10">10</option>
                             <option value="15">15</option>
@@ -146,15 +150,14 @@
             $('#question-container').empty();
             createQuestion(event.target.value);
             countQuestion = parseInt(event.target.value);
+            $('#countQuestion').val(countQuestion)
 
         });
         $('#addQuestion').on('click', (event) => {
-            console.log('djd')
             addQuestion();
 
         });
         $('#removeQuestion').on('click', (event) => {
-            console.log('djd')
             removeQuestion()
 
         });
