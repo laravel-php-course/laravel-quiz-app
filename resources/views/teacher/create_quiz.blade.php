@@ -3,10 +3,7 @@
 @section('title')
     ایجاد امتحان
 @endsection
-{{--@php--}}
-{{--if (!empty($errors->all()))--}}
-{{--    dd($errors->all());--}}
-{{--@endphp--}}
+
 @section('content')
     <section class="p-4">
         <div class="px-2 py-3 bg-white rounded-md shadow-sm">
@@ -20,6 +17,9 @@
                     <label for="quiz_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">عنوان امتحان</label>
                     <input name="quiz_title" type="text" id="quiz_title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="عنوان امتحان" required>
                 </div>
+                <label for="quiz_time">زمان امتحان</label>
+                <input name="quiz_time" id="quiz_time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+
                 @csrf
                 <div class="flex items-center w-100">
                     <div class="">
@@ -39,8 +39,7 @@
                                 <option value="3">دیتابیس</option>
                             </select>
                     </div>
-
-                    <div class="mx-5">
+                   <div class="mx-5">
                         <button type="button" class="px-4 py-2 text-white bg-green-500 rounded-full" id="addQuestion"> + </button>
                         <button type="button" class="px-4 py-2 text-white bg-red-500 rounded-full"  id="removeQuestion"> - </button>
                     </div>
@@ -48,20 +47,15 @@
                 <div class="block w-full w-100" id="question-container">
 
 
-                    @for ($i = 0; $i < 20; $i++)
-                        @error("question_title_{$i}")
-                        <div class="text-red-500">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                        @for ($j = 0; $j < 4; $j++)
-                            @error("answer_{$i}_{$j}_title")
-                            <div class="text-red-500">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        @endfor
-                    @endfor
+                    <p class="text-red-600">
+                        @php
+                            if (!empty($errors->all())){
+                                foreach ($errors->all() as $error ){
+                                    echo $error ;
+                                }
+
+}
+                        @endphp</p>
 
                 </div>
                 <div class="block w-full w-100">

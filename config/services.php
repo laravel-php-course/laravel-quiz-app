@@ -41,5 +41,13 @@ return [
     ] ,
      'throttle' => [
     'minute' => env('THROTTLE_MINUTE', 1),
-    'time' => env('THROTTLE_TIME', 5)]
-];
+    'time' => env('THROTTLE_TIME', 5)
+     ],
+    'paginate' => [
+        'low' => env('LIMIT_PAGINATION_LOW', 3),
+        'medium' => env('LIMIT_PAGINATION_MEDIUM', 5) ,
+        'high' => env('LIMIT_PAGINATION_HIGH', 7)
+]
+]
+
+    ;

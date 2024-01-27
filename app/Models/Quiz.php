@@ -41,6 +41,6 @@ class Quiz extends Model
          return self::where([
             'creator_type' => $creator_type[0],
             'creator_id' => auth()->guard($creator_type[1])->id()
-        ])->paginate($count);
+        ])->cursorpaginate($count);
     }
 }

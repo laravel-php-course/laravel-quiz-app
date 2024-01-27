@@ -75,7 +75,7 @@
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <a href="/teacher/edit/quiz/{{$quiz->id}}" class="bg-yellow-400 text-l p-3 rounded-2xl hover:bg-yellow-600 hover:shadow-2xl hover:text-white">ویرایش</a>
+                            <a href="/admin/edit/quiz/{{$quiz->id}}" class="bg-yellow-400 text-l p-3 rounded-2xl hover:bg-yellow-600 hover:shadow-2xl hover:text-white">ویرایش</a>
                             <a href="/quiz/del/quiz/{{$quiz->id}}" class="bg-red-400 text-l p-3 rounded-2xl hover:bg-red-600 hover:shadow-2xl hover:text-white">حذف</a>
                         </td>
                     </tr>
@@ -83,7 +83,7 @@
                 @endforeach
                 </tbody>
             </table>
-            {{ $quizzes->links() }}
+
         </div>
 
     </section>

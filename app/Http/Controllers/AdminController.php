@@ -7,7 +7,11 @@ use App\Http\Requests\Admin\RegisterRequest;
 use App\Http\Requests\Admin\VerificationCodeRequest;
 use App\Http\Requests\resendRequest;
 use App\Models\Admin;
+use App\Models\Answer;
+use App\Models\Question;
+use App\Models\Quiz;
 use App\Models\Teacher;
+use App\Services\BaseService;
 use App\Services\sendEmail;
 use App\Services\VerificationService;
 use Exception;
@@ -29,6 +33,33 @@ class AdminController extends Controller
      * @throws InvalidArgumentException
      * @throws Exception
      */
+
+    public function ShowAllQuiz(Request $request)
+    {
+        $quizzes = Quiz::all();
+
+        return view('admin.all_quizzes', ['quizzes' => $quizzes]);
+    }
+
+    public function ShowQuizCreateForm()
+    {
+        return view('admin.create_quiz');
+    }
+
+    public function ShowEdit(Request $request , $quiz)
+    {
+        $Answers = [];
+        $Questions = Question::where('quiz_id',$quiz)->get();
+        foreach ($Questions as $answer ) {
+            $Answer = Answer::where('question_id',$answer->id)->get();
+            foreach ($Answer as $answers ) {
+                $Answers[$answers->id] = $answers ;
+            }
+
+        }
+        return view('admin.edit_quiz')->with(['Questions' => $Questions , 'Answers' => $Answers]);
+    }
+
     public function handleLogin(RegisterRequest $request)
     {
         $field = $request->getField();
@@ -116,7 +147,7 @@ class AdminController extends Controller
         $teacher->status = $request->input('action');
 
         $teacher->save();
-sendEmail::send($teacher->email , 'وضعیت شما در سایت تعغییر کرد لطفا سایت رو چک کنید');
+BaseService::sendMail($teacher->email , 'وضعیت شما در سایت تعغییر کرد لطفا سایت رو چک کنید');
         return response([
             'message' => "وضعیت با موفقیت تغییر کرد",
             'icon'    => Teacher::getStatusIcon($teacher->status),

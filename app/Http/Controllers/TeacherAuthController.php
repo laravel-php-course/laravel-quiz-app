@@ -9,6 +9,7 @@ use App\Http\Requests\UserAuth\loginRequest;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Services\VerificationService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TeacherAuthController extends Controller
@@ -99,6 +100,7 @@ class TeacherAuthController extends Controller
         Auth::guard('teacher')->logout();
         return redirect(route('home'));
     }
+
 
     public function handleCodeLogin(CodeRequest $request)
     {

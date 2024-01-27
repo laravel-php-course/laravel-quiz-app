@@ -2,11 +2,13 @@
 
 namespace App\Services;
 
+use App\Mail\sendMail;
 use App\Mail\VerificationMail;
 use App\Models\Admin;
 use App\Models\Code;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -34,42 +36,15 @@ class BaseService
         $cache = json_decode(VerificationService::get($dest) , true) ;
         if ($type == 'email')
         {
-            Mail::to($dest)->send(new VerificationMail($code));
-//            self::SendMail() //TODO Implement This REMVE ABOVE CODE
-            //TODO Delete Duplicate Code LINE 40, 64
-            Code::create([
-                'dest' => $dest,
-                'code' => $code ,
-                'username' => $cache['name'] ,
-                'type' => $cache['type'] ,
-                'date' => now()
-            ]);
+            self::SendMail($dest , $code);
+            Log::info($code);
+            self::createVerificationCode($dest , $code , $cache['name'] , $cache['type']);
         }
         else
         {
-            //            self::SendSMS() //TODO Implement This
-            $template = config('services.sms.template');
-            $search = ['NAME' , 'CODE' , 'MOBILE'];
-            $replace = [$cache['name'] , $cache['code'] , $dest];
-            $msg = str_replace($search , $replace , $template);
-            $response = Http::withoutVerifying()->withHeaders([
-                'Content-Type' => 'application/x-www-form-urlencoded',
-            ])->asForm()->post(config('services.sms.url'), [
-                'username' => config('services.sms.username'),
-                'password' => config('services.sms.password'),
-                'Source' => config('services.sms.source'),
-                'Message' => $msg,
-                'destination' => self::convertToIranFormat($dest)
-            ]);
-            Code::create([
-                'dest' => $dest,
-                'code' => $code ,
-                'username' => $cache['name'] ,
-                'type' => $cache['type'] ,
-                'date' => now()
-            ]);
-            $msgId = $response->body();
-            return $response->body();
+            self::sendSms($dest , $cache['code'] , $cache['name']);
+            self::createVerificationCode($dest , $code , $cache['name'] , $cache['type']);
+
         }
     }
 
@@ -80,4 +55,41 @@ class BaseService
         elseif (auth()->guard('teacher')->check())
             return [Teacher::class, 'teacher'];
     }
+
+    public static function sendMail($dest, $mail)
+    {
+        Mail::to($dest)->send(new sendMail($mail));
+
+    }
+    public static function createVerificationCode($dest, $code , $username , $type)
+    {
+        Code::create([
+            'dest' => $dest,
+            'code' => $code ,
+            'username' => $username ,
+            'type' => $type ,
+            'date' => now()
+        ]);
+
+    }
+    public static function sendSms($dest, $code , $name )
+{
+    $template = config('services.sms.template');
+    $search = ['NAME' , 'CODE' , 'MOBILE'];
+    $replace = [$name , $code , $dest];
+    $msg = str_replace($search , $replace , $template);
+    $response = Http::withoutVerifying()->withHeaders([
+        'Content-Type' => 'application/x-www-form-urlencoded',
+    ])->asForm()->post(config('services.sms.url'), [
+        'username' => config('services.sms.username'),
+        'password' => config('services.sms.password'),
+        'Source' => config('services.sms.source'),
+        'Message' => $msg,
+        'destination' => self::convertToIranFormat($dest)
+    ]);
+    $msgId = $response->body();
+    return $response->body();
+
+}
+
 }

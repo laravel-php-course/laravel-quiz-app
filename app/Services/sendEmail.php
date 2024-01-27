@@ -15,11 +15,6 @@ class sendEmail extends BaseService
 {
 
 
-    public static function send($dest, $mail)
-    {
-            Mail::to($dest)->send(new sendMail($mail));
-
-        }
-
+ 
 
 }
