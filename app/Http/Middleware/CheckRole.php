@@ -28,7 +28,6 @@ class CheckRole
         {
             return $next($request);
         }
-
-        return redirect("/$role/login")->with('error', 'Unauthorized');
+        return redirect("/registration")->with('error', 'Unauthorized');
     }
 }

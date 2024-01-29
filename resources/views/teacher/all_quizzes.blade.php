@@ -59,7 +59,7 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center">
-                                <a href="{{route('quiz.ShowExam')}}">
+                                <a href="{{route('quiz.ShowExam', ['quiz' => $quiz->id])}}">
                                     لینک سوالات
                                 </a>
                             </div>

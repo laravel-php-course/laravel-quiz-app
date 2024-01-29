@@ -74,10 +74,12 @@ Route::prefix('/admin')->group(function () {
 
 Route::prefix('/quiz')->group(function() {
    /* GET */
-    Route::get('/exam', [QuizController::class, 'ShowExam'])->name('quiz.ShowExam');
+    Route::get('/exam/{quiz}', [QuizController::class, 'ShowExam'])->name('quiz.ShowExam');
     Route::get('/del/quiz/{quiz}', [QuizController::class, 'DeleteExam'])->name('quiz.DeleteExam');
-    /* POST */ //
+
+    /* POST */
     Route::post('/add', [QuizController::class, 'Create'])->middleware(['throttle:'.config("services.throttle.time").','.config("services.throttle.minute"), 'checkRole:teacher'])
     ->name('quiz.add');
     Route::post('/edit', [QuizController::class, 'handleEditQuiz'])->name('handle.edit.quiz');
+    Route::post('/submit', [QuizController::class, 'handleSubmitQuiz'])->name('quiz.submit'); //TODO Add middleware User, CheckQuizTime, and if user has active quiz dont create quizAction
 });
