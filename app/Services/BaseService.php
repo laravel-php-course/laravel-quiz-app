@@ -38,14 +38,12 @@ class BaseService
         {
             self::SendMail($dest , $code);
             Log::info($code);
-            self::createVerificationCode($dest , $code , $cache['name'] , $cache['type']);
         }
         else
         {
             self::sendSms($dest , $cache['code'] , $cache['name']);
-            self::createVerificationCode($dest , $code , $cache['name'] , $cache['type']);
-
         }
+        self::createVerificationCode($dest , $code , $cache['name'] , $cache['type']);
     }
 
     public static function getCreatorType(): array
