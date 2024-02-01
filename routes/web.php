@@ -5,6 +5,7 @@ use App\Http\Controllers\QuizController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\TeacherAuthController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -84,3 +85,11 @@ Route::prefix('/quiz')->group(function() {
     Route::post('/edit', [QuizController::class, 'handleEditQuiz'])->name('handle.edit.quiz');
     Route::post('/submit', [QuizController::class, 'handleSubmitQuiz'])->middleware('checkQuizTime' , 'checkUser')->name('quiz.submit'); //TODO Add middleware User, CheckQuizTime,
 });
+
+Route::prefix('/topic')->group(function() {
+    /* GET */
+    Route::get('/all', [TopicController::class, 'ShowAll'])->name('topic.ShowAll');
+    Route::get('/topic', [TopicController::class, 'ShowTopic'])->name('topic.ShowTopic');
+
+    /* POST */
+ });
