@@ -23,6 +23,7 @@ class handleEditQuizRequest extends FormRequest
     {
         $rules = [
             'questions' => 'required|array|min:1',
+
         ];
 
         foreach ($this->input('questions', []) as $key => $value) {

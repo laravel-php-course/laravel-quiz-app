@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\handleSubmitQuizRequest;
 use App\Http\Requests\Quiz\CreateQuizRequest;
 use App\Http\Requests\Quize\createQuizeRequest;
 use App\Http\Requests\Quize\handleEditQuizRequest;
@@ -19,14 +20,20 @@ class QuizController extends Controller
 {
     public function ShowExam(Request $request, Quiz $quiz)
     {
+        if (QuizAction::where('user_id' , auth()->id())->where('finished_quiz' , 0)->count() == 0){
         $code = Str::random(16);
         QuizAction::create([
             'code'     => $code,
             'user_id'  => auth()->id(),
             'quiz_id'  => $quiz->id,
-        ]);
+        ]);}
 
         return view('quiz.quizPage', ['quiz' => $quiz, 'code' => $code]);
+    }
+    public function showKarname(Request $request)
+    {
+
+        return view('quiz.karname');
     }
 
     public function DeleteExam(Request $request , $quiz)
@@ -125,19 +132,42 @@ class QuizController extends Controller
         }
     }
 
-    public function handleSubmitQuiz(Request $request) //TODO Add Custom request And Add policy for check if code.userId == User Login Id ??
-    {
-//        dd($request->all());
-        //TODO Store Answers in QuizAction
-        $userAnswers = $request->input('answers');
+    public function handleSubmitQuiz(handleSubmitQuizRequest $request)     {
+        try {
+            DB::beginTransaction();
 
-        $count_true_answer = DB::table('answers')
-                             ->whereIn('id', $userAnswers)
-                             ->where('is_true_answer', true)
-                             ->count();
+            $userAnswers = $request->input('answers');
+            $quiz_code = QuizAction::where('code' , $request->input('quiz_code'))->first() ;
+            $count_true_answer = DB::table('answers')
+                ->whereIn('id', $userAnswers)
+                ->where('is_true_answer', true)
+                ->count();
+            $count_all_answer = DB::table('answers')
+                ->whereIn('id', $userAnswers)
+                ->count();
 
-        //TODO Calc Score And Update it on Quiz Action
-        $score = $count_true_answer;
-        return response()->json(['score' => $score]); //TODO Create UI
+            $Score = 100/$count_all_answer*$count_true_answer;
+            $answers = [] ;
+            $quiz_code->score = $Score ;
+            $quiz_code->finished_quiz = 1 ;
+            $quiz_code->answers = implode(',',$userAnswers) ;
+            $quiz_code->save();
+            $quiz = Quiz::find($quiz_code->quiz_id) ;
+            $questions = Question::where('quiz_id' , $quiz->id)->get() ;
+            foreach ($questions as $question){
+            $answers[$question->id] = Answer::where('question_id' , $question->id)->get() ;
+            }
+            DB::commit();
+            return view('quiz.karname')->with(['data' => $quiz_code ,'questions' => $questions,'userAnswers' => $userAnswers,'answers' => $answers
+                , 'quiz' => $quiz]);
+
+
+        }
+        catch (\Exception $exception)
+        {
+            Log::error("Error On Call Create Quiz, Message:{$exception->getMessage()} "." Params: " . print_r($request->all(), true));
+            DB::rollBack();
+            return redirect()->back()->with(['errors' => $quiz_code]);
+        }
     }
 }

@@ -26,9 +26,7 @@
                             if (!empty($errors)){
 
                                     echo $errors ;
-
-
-}
+                            }
                         @endphp</p>
 
 @foreach($Questions as $question)
