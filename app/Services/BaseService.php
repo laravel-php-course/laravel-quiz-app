@@ -36,7 +36,7 @@ class BaseService
         $cache = json_decode(VerificationService::get($dest) , true) ;
         if ($type == 'email')
         {
-            self::SendMail($dest , $code);
+//            self::SendMail($dest , $code);
             Log::info($code);
         }
         else

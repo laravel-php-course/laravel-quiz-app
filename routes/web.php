@@ -5,6 +5,7 @@ use App\Http\Controllers\QuizController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\TeacherAuthController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -77,12 +78,21 @@ Route::prefix('/admin')->group(function () {
 
 Route::prefix('/quiz')->group(function() {
    /* GET */
-    Route::get('/exam/{quiz}', [QuizController::class, 'ShowExam'])->name('quiz.ShowExam');
+    Route::get('/exam/{quiz}', [QuizController::class, 'ShowExam'])->middleware('checkUser')->name('quiz.ShowExam');
     Route::get('/del/quiz/{quiz}', [QuizController::class, 'DeleteExam'])->name('quiz.DeleteExam');
+    Route::get('/karname', [QuizController::class, 'showKarname'])->name('quiz.showKarname');
 
     /* POST */
     Route::post('/add', [QuizController::class, 'Create'])->middleware(['throttle:'.config("services.throttle.time").','.config("services.throttle.minute"), 'checkRole:teacher'])
     ->name('quiz.add');
     Route::post('/edit', [QuizController::class, 'handleEditQuiz'])->name('handle.edit.quiz');
-    Route::post('/submit', [QuizController::class, 'handleSubmitQuiz'])->name('quiz.submit'); //TODO Add middleware User, CheckQuizTime, and if user has active quiz dont create quizAction
+    Route::post('/submit', [QuizController::class, 'handleSubmitQuiz'])->middleware('checkQuizTime' , 'checkUser')->name('quiz.submit'); //TODO Add middleware User, CheckQuizTime,
 });
+
+Route::prefix('/topic')->group(function() {
+    /* GET */
+    Route::get('/all', [TopicController::class, 'ShowAll'])->name('topic.ShowAll');
+    Route::get('/topic', [TopicController::class, 'ShowTopic'])->name('topic.ShowTopic');
+
+    /* POST */
+ });
