@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [SiteController::class, 'Home'])->name('home');
 Route::get('/registration', [SiteController::class, 'registration'])->name('registration');
+Route::get('/topics/all', [SiteController::class, 'ShowAllTopics'])->name('topics.all.form');
+Route::get('/topics/show', [SiteController::class, 'ShowTopic'])->name('topics.show.form');
+
 Route::get('/register', [UserAuthController::class, 'ShowRegisterForm'])->name('user.register');
 Route::get('/logIn', [UserAuthController::class, 'ShowLogInForm'])->name('user.logIn');
 Route::get('/code', [UserAuthController::class, 'ShowCodePage'])->name('user.code');
