@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Topic extends Model
 {
     use HasFactory;
+    protected $guarded = [];
     public function users(): BelongsTo
     {
         return $this->belongsTo(User::class);

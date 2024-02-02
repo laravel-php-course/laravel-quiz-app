@@ -27,6 +27,9 @@
             <a href="#responsive-header" class="block mt-4 md:inline-block md:mt-0 text-purple-500 hover:bg-purple-500 p-3 font-bold hover:text-white mr-4">
                 دبیران
             </a>
+            <a href="{{ route('topics.all.form') }}" class="block mt-4 md:inline-block md:mt-0 text-purple-500 hover:bg-purple-500 p-3 font-bold hover:text-white mr-4">
+                تالار گفتمان
+            </a>
         </div>
         <div>
             @if(auth()->check())

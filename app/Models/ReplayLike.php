@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ReplayLike extends Model
 {
     use HasFactory;
+    protected $guarded=[];
     public function topics(): BelongsTo
     {
         return $this->belongsTo(Topic::class);
