@@ -97,7 +97,7 @@
                         </div>
                     </div>
                     <div class="xl:col-span-4 col-span-12">
-                        <a href="{{ route('topics.show.form') }}" class="h-16 bg-purple-700 dark:bg-transparent dark:hover:border-purple-450 dark:hover:text-purple-450 dark:border-gray-920 dark:border-1 flex justify-center items-center font-medium text-xl rounded-xl group text-white border-2 border-purple-700 hover:bg-white hover:text-purple-700 transition duration-200 hover:shadow-lg">
+                        <a href="{{ route('topics.create.form') }}" class="h-16 bg-purple-700 dark:bg-transparent dark:hover:border-purple-450 dark:hover:text-purple-450 dark:border-gray-920 dark:border-1 flex justify-center items-center font-medium text-xl rounded-xl group text-white border-2 border-purple-700 hover:bg-white hover:text-purple-700 transition duration-200 hover:shadow-lg">
                             ثبت پرسش جدید
                             <svg class="mr-2" width="39" height="39" viewBox="0 0 42 41" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path class="stroke-current text-white transition duration-200 dark:group-hover:text-purple-450 group-hover:text-purple-700" d="M16.293 20.7224H21.0723M25.8517 20.7224H21.0723M21.0723 20.7224V15.943V25.5017" stroke-width="2.53025" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -145,7 +145,7 @@
                     </div>
                     <div class="mb-7 sm:text-right text-center">
                         <h3 class="text-start transition duration-200 mb-3 font-bold md:text-33 sm:text-26 text-22 w-fit-content">
-                            <a href="/discuss/نحوه-ی-ارسال-ارایه-در-فرم" class="text-start text-xl font-bold leading-relaxed text-gray-800 dark:text-white hover:text-blue-700 ">
+                            <a href="/topics/show/1" class="text-start text-xl font-bold leading-relaxed text-gray-800 dark:text-white hover:text-blue-700 ">
                                 نحوه ی ارسال ارایه در فرم
                             </a>
                         </h3>

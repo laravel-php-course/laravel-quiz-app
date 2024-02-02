@@ -34,9 +34,10 @@
         </select>
     </div>
     <label class="text-xl">متن :</label>
-      <textarea class="focus:border-blue-600 w-full border p-4 mt-4" placeholder="سوال شما ..."></textarea>
-<button class="bg-blue-500 p-2 rounded" type="submit">تایید</button>
-    <button class="bg-red-500 p-2 rounded" onclick="removeTopic()">بیخیال</button>
+    <textarea class="focus:border-blue-600 w-full border p-4 mt-4" placeholder="سوال شما ...">
+
+    </textarea>
+    <button class="bg-blue-500 p-2 rounded" type="submit">ایجاد</button>
 </div>
 </body>
 <script>

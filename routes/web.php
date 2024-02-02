@@ -19,10 +19,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+//TODO Dynamic : topics/all, /topics/show/{id}, Add Create Comment On topics
+
 Route::get('/', [SiteController::class, 'Home'])->name('home');
 Route::get('/registration', [SiteController::class, 'registration'])->name('registration');
-Route::get('/topics/all', [SiteController::class, 'ShowAllTopics'])->name('topics.all.form');
-Route::get('/topics/show', [SiteController::class, 'ShowTopic'])->name('topics.show.form');
+Route::get('/topics/all', [SiteController::class, 'ShowAllTopics'])->name('topics.all.form');//TODO move to group
+Route::get('/topics/show/{id}', [SiteController::class, 'ShowTopic'])->name('topics.show.form');
+Route::get('/topics/create', [SiteController::class, 'ShowCreateTopic'])->middleware('auth')->name('topics.create.form');
+Route::post('topics/create', [SiteController::class, 'HandleCreateTopic'])->middleware('auth')->name('topics.create.submit.form');
+Route::post('/topics/addreplaylike', [SiteController::class, 'HandleReplayLike'])->name('topics.addreplaylike.submit');
 
 Route::get('/register', [UserAuthController::class, 'ShowRegisterForm'])->name('user.register');
 Route::get('/logIn', [UserAuthController::class, 'ShowLogInForm'])->name('user.logIn');
