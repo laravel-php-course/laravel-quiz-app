@@ -63,10 +63,10 @@
                         </div>
 
                         <div class="flex flex-col mt-3 sm:mr-4 sm:mt-0">
-                            <a href="/@azimzadeh1398" class="mb-2 text-3xl font-semibold text-gray-800 transition duration-200 dark:text-white hover:text-blue-700">عظیم زاده</a>
+                            <a href="/@azimzadeh1398" class="mb-2 text-3xl font-semibold text-gray-800 transition duration-200 dark:text-white hover:text-blue-700">{{$topic->users->name}}</a>
                             <div class="flex flex-col items-center text-lg text-gray-300 sm:flex-row">
                                 <div><span data-time-realtime="2024-02-01 15:54:38">1 ساعت پیش</span>
-                                    توسط <a href="/@azimzadeh1398" class="font-medium text-blue-500 hover:underline">عظیم زاده</a>
+                                    توسط <a href="/@azimzadeh1398" class="font-medium text-blue-500 hover:underline">{{$topic->users->name}}</a>
                                     مطرح شد</div>
                             </div>
                         </div>
@@ -80,7 +80,9 @@
                                     <path stroke="currentColor" d="M8.12134 11.7807L4.13281 7.7599L8.12134 3.73914" stroke-width="1.48905" stroke-linecap="round" stroke-linejoin="round"></path>
                                     <path stroke="currentColor" d="M16.8961 16.6058V10.9767C16.8961 10.1236 16.5599 9.30549 15.9615 8.70226C15.3631 8.09902 14.5515 7.76013 13.7053 7.76013H4.13281" stroke-width="1.48905" stroke-linecap="round" stroke-linejoin="round"></path>
                                 </svg>
-                                4 پاسخ
+                                @php
+                                    echo App\Models\Replay::where("topic_id" , $topic->id)->count();
+                                @endphp
                             </a>
                         </div>
                     </div>
@@ -88,13 +90,10 @@
             </div>
             <div class="mb-6 text-center sm:text-right">
                 <h1 class="mb-5 font-bold text-gray-800 dark:text-white md:text-4xl sm:text-3xl text-28 md:leading-68">
-                    تبدیل عکس به کد عددی
+                    {{$topic->title}}
                 </h1>
                 <div class="px-8 py-2 text-gray-800 bg-gray-200 rounded-lg content-area dark:bg-dark-910">
-                    <p>سلام<br>
-                        گاهاً دیده میشه لوگوی سایتی به جای اینکه تصویر باشه یک عدد طولانی هست که با svg شروع شده<br>
-                        چگونه میشه لوگوی سایت را به چنین کدی تبدیل کرد؟<br>
-                        ممنون بابت پاسگویی&zwnj;تان</p>
+                    <p>{{$topic->body}}</p>
                 </div>
             </div>
             <hr class="mb-5 border-gray-300 border-opacity-20">
@@ -106,7 +105,7 @@
         <div>
             @foreach($topic->replays as $replay)
                 <div id="{{ $replay->id }}">
-                    <div class="flex items-center px-4 pb-6 bg-gray-100 shadow-lg rounded-xl pt-9">
+                    <div class="flex items-center px-4 pb-6 bg-gray-100 shadow-lg rounded-xl pt-9 mt-5">
                         <div class="w-full">
                             <div class="flex flex-col items-center justify-between mb-6 md:flex-row">
                                 <div class="flex items-start self-start sm:self-center">
@@ -120,7 +119,7 @@
                                     </div>
 
                                     <div class="flex flex-col mr-4">
-                                        <a href="/@saghari" class="mb-2 text-2xl font-semibold text-gray-800 transition duration-200 dark:text-white hover:text-blue-700">محمد حسین</a>
+                                        <a href="/@saghari" class="mb-2 text-2xl font-semibold text-gray-800 transition duration-200 dark:text-white hover:text-blue-700">{{$replay->creators->name}}</a>
                                         <div class="flex flex-col items-start sm:flex-row sm:items-center">
                                             <div class="relative group dark:text-gray-920 text-gray-300 text-sm font-medium sm:pl-2 md:ml-2 md:mb-0 mb-1.5 sm:border-l border-gray-300 border-opacity-20 last:ml-0 last:pl-0 w-fit-content last:border-0 flex items-center">
                                                 <span class="ml-1">تخصص :</span>
@@ -170,7 +169,11 @@
                                                     <path fill="currentColor" d="M279 224H41c-21.4 0-32.1-25.9-17-41L143 64c9.4-9.4 24.6-9.4 33.9 0l119 119c15.2 15.1 4.5 41-16.9 41z" class=""></path>
                                                 </svg>
                                             </div>
-                                            <div class="text-xl font-semibold text-gray-500 ltr ">0</div>
+                                            <div class="text-xl font-semibold text-gray-500 ltr " id="data{{ $replay->id }}">
+@php
+   echo App\Models\ReplayLike::where('replay_id' , $replay->id)->count()-App\Models\Replaydislike::where('replay_id' ,$replay->id)->count()
+ @endphp
+                                            </div>
                                             <div onclick="AddDisLike({{ $replay->id }})">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="text-gray-300 cursor-pointer w-7 h-7 hover:text-blue-700 ">
                                                     <path fill="currentColor" d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z" class=""></path>
@@ -182,9 +185,7 @@
                                 <div class="w-full">
                                     <div class="flex items-start">
                                         <div class="w-full text-gray-800 content-area reply_item">
-                                            <p>این تگ svg هست که اگه html بلد باشی باهاش آشنایی داری<br>
-                                                معمولا خودشون نمیسازن و کانورت میکنن<br>
-                                                گوگل کن png to svg میتونی آنلاین انجام بدی اینکارو </p>
+                                            <p>{{$replay->body}}</p>
                                         </div>
                                     </div>
                                     <hr class="mt-8 mb-5 border-gray-210 border-opacity-20">
@@ -205,12 +206,19 @@
                     </div>
                 </div>
             @endforeach
+                <form action="{{route('topics.add.replay')}}" method="post">
+                    @csrf
+                    <label for="comment" class="text-2xl m-2 block">نظر شما :</label>
+                    <textarea name="comment"  class="border-gray-200 bg-gray-100 border-4 rounded-md w-full p-2 m-2" id="comment" cols="30" rows="10"></textarea>
+                    <input type="hidden" name="hidden" id="" value="{{$topic->id}}">
+                    <button type="submit" class="bg-green-600 shadow-md rounded-md border-b-4 border-green-700 p-2 border-r-4 m-4 hover:border-r-0 hover:border-b-0 ">ارسال</button>
+                </form>
         </div>
     </div>
 </section>
 <script>
     const token = "{{ csrf_token() }}";
-    
+
     const AddLike = (replayID) => {
         const requestBody = {
             "replayID": replayID,
@@ -227,12 +235,30 @@
         .then(response => response.json())
         .then(data => {
             console.log(data)
+            document.getElementById('data'+replayID).innerText = data.data
         })
         .catch(err => console.log(err));
     };
 
-    function AddDisLike(replayID) { //TODO Complete it
-
+    function AddDisLike(replayID) {
+        const requestBody = {
+            "replayID": replayID,
+            "_token": token
+        }
+        fetch("{{ route('topics.addReplayDisLike.submit') }}", {
+            method:"POST",
+            headers: {
+                'X-CSRF-TOKEN': token,
+                'Content-Type': "application/json,charset-utf8"
+            },
+            body: JSON.stringify(requestBody)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                document.getElementById('data'+replayID).innerText = data.data
+            })
+            .catch(err => console.log(err));
     }
 </script>
 </body>

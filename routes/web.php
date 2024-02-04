@@ -19,15 +19,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-//TODO Dynamic : topics/all, /topics/show/{id}, Add Create Comment On topics
-
+//
 Route::get('/', [SiteController::class, 'Home'])->name('home');
 Route::get('/registration', [SiteController::class, 'registration'])->name('registration');
-Route::get('/topics/all', [SiteController::class, 'ShowAllTopics'])->name('topics.all.form');//TODO move to group
-Route::get('/topics/show/{id}', [SiteController::class, 'ShowTopic'])->name('topics.show.form');
-Route::get('/topics/create', [SiteController::class, 'ShowCreateTopic'])->middleware('auth')->name('topics.create.form');
-Route::post('topics/create', [SiteController::class, 'HandleCreateTopic'])->middleware('auth')->name('topics.create.submit.form');
-Route::post('/topics/addreplaylike', [SiteController::class, 'HandleReplayLike'])->name('topics.addreplaylike.submit');
 
 Route::get('/register', [UserAuthController::class, 'ShowRegisterForm'])->name('user.register');
 Route::get('/logIn', [UserAuthController::class, 'ShowLogInForm'])->name('user.logIn');
@@ -91,13 +85,19 @@ Route::prefix('/quiz')->group(function() {
     Route::post('/add', [QuizController::class, 'Create'])->middleware(['throttle:'.config("services.throttle.time").','.config("services.throttle.minute"), 'checkRole:teacher'])
     ->name('quiz.add');
     Route::post('/edit', [QuizController::class, 'handleEditQuiz'])->name('handle.edit.quiz');
-    Route::post('/submit', [QuizController::class, 'handleSubmitQuiz'])->middleware('checkQuizTime' , 'checkUser')->name('quiz.submit'); //TODO Add middleware User, CheckQuizTime,
+    Route::post('/submit', [QuizController::class, 'handleSubmitQuiz'])->middleware('checkQuizTime' , 'checkUser')->name('quiz.submit');
 });
 
-Route::prefix('/topic')->group(function() {
+Route::prefix('/topics')->group(function() {
     /* GET */
-    Route::get('/all', [TopicController::class, 'ShowAll'])->name('topic.ShowAll');
-    Route::get('/topic', [TopicController::class, 'ShowTopic'])->name('topic.ShowTopic');
+    Route::get('/all', [SiteController::class, 'ShowAllTopics'])->name('topics.all.form');
+    Route::get('/all/filtered', [SiteController::class, 'ShowAllTopicsFiltered'])->name('topics.all.filtered');
+    Route::get('/show/{id}', [SiteController::class, 'ShowTopic'])->name('topics.show.form');
+    Route::get('/create', [SiteController::class, 'ShowCreateTopic'])->middleware('auth')->name('topics.create.form');
+    Route::post('/create', [SiteController::class, 'HandleCreateTopic'])->middleware('auth')->name('topics.create.submit.form');
+    Route::post('/addreplaylike', [SiteController::class, 'HandleReplayLike'])->middleware('auth')->name('topics.addreplaylike.submit');
+    Route::post('/addreplayDislike', [SiteController::class, 'HandleReplayDisLike'])->middleware('auth')->name('topics.addReplayDisLike.submit');
+    Route::get('/addreplay', [SiteController::class, 'HandleReplay'])->middleware('auth')->name('topics.add.replay');
 
     /* POST */
  });

@@ -10,14 +10,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Replay extends Model
 {
     use HasFactory;
+    protected $guarded = [];
     public function topics(): BelongsTo
     {
         return $this->belongsTo(Topic::class);
     }
     public function creators(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'creator_id' , 'id');
     }
+
     public function replaylikes(): HasMany
     {
         return $this->hasMany(ReplayLike::class);

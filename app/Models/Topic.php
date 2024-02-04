@@ -11,9 +11,14 @@ class Topic extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    const PENDING = 'Pending';
+    const ACTIVE = 'Active';
+    const SUSPEND = 'Suspend';
+
+    const STATUS = [self::ACTIVE, self::PENDING, self::SUSPEND];
     public function users(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class ,'creator_id' , 'id');
     }
     public function likes(): HasMany
     {

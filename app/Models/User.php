@@ -47,4 +47,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(QuizAction::class);
     }
+    public function topics(): HasMany
+    {
+        return $this->hasMany(Topic::class);
+    }
+    public function replays(): HasMany
+    {
+        return $this->hasMany(Replay::class);
+    }
 }

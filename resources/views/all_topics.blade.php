@@ -75,12 +75,15 @@
                         دسته بندی سوالات
                     </h6>
                     <hr class="my-4">
+                    <form  method="get" action="{{route('topics.all.filtered')}}">
                     @foreach($categories as $category)
-                        <div class="flex items-center my-2 me-4">
-                            <input id="purple-checkbox" type="checkbox" value="{{ $category->id }}" class="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+<div class="flex items-center my-2 me-4">
+                            <input id="purple-checkbox" type="radio" name="category_id" value="{{ $category->id }}" class="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="purple-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $category->title }}</label>
-                        </div>
+                </div>
                     @endforeach
+                        <button type="submit" class=" bg-green-700  flex justify-center items-center font-medium p-2 rounded-xl group text-white border-2 border-green-700 hover:bg-white hover:text-green-700 transition duration-200 hover:shadow-lg">تایید فیلتر</button>
+                        </form>
                 </div>
             </div>
             <div class="lg:basis-9/12 ps-12">
@@ -97,7 +100,7 @@
                         </div>
                     </div>
                     <div class="xl:col-span-4 col-span-12">
-                        <a href="{{ route('topics.create.form') }}" class="h-16 bg-purple-700 dark:bg-transparent dark:hover:border-purple-450 dark:hover:text-purple-450 dark:border-gray-920 dark:border-1 flex justify-center items-center font-medium text-xl rounded-xl group text-white border-2 border-purple-700 hover:bg-white hover:text-purple-700 transition duration-200 hover:shadow-lg">
+                        <a href="{{ route('topics.create.form') }}" class="h-16 bg-purple-700  flex justify-center items-center font-medium text-xl rounded-xl group text-white border-2 border-purple-700 hover:bg-white hover:text-purple-700 transition duration-200 hover:shadow-lg">
                             ثبت پرسش جدید
                             <svg class="mr-2" width="39" height="39" viewBox="0 0 42 41" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path class="stroke-current text-white transition duration-200 dark:group-hover:text-purple-450 group-hover:text-purple-700" d="M16.293 20.7224H21.0723M25.8517 20.7224H21.0723M21.0723 20.7224V15.943V25.5017" stroke-width="2.53025" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -107,6 +110,7 @@
                         </a>
                     </div>
                 </div>
+                @foreach($topics as $topic)
                 <div class="mb-5 flex flex-col bg-gray-100 shadow-lg rounded-xl sm:px-11 px-3 pt-8 pb-7">
                     <div class="flex items-center justify-between lg:flex-nowrap flex-wrap mb-6">
                         <div class="flex sm:items-start items-center sm:flex-row flex-col sm:text-right text-center lg:w-auto w-full">
@@ -120,7 +124,8 @@
                             </div>
 
                             <div class="flex flex-col sm:mt-0 mt-3 sm:mr-3">
-                                <a href="/@Zsoltanpour" class="text-gray-800 font-bold dark:text-white dark:hover:text-blue-450 hover:text-blue-700 transition duration-200 text-2xl mb-2">زهرا سلطانپور </a>
+                                <a href="/@Zsoltanpour" class="text-gray-800 font-bold dark:text-white dark:hover:text-blue-450 hover:text-blue-700 transition duration-200 text-2xl mb-2">
+                                    {{$topic->users->name}}</a>
                                 <div class="text-gray-600 dark:text-gray-920 font-normal text-sm flex items-center">
                                     <div class="text-blue-500 dark:text-blue-450 font-medium ml-1" data-time-realtime="2024-01-31 17:13:23">4 ساعت پیش</div>
                                     <div> توسط <a href="/@salar.mohammad2013" class="text-blue-500 dark:text-blue-450 font-medium hover:underline">محمد رضا</a> آپدیت شد</div>
@@ -138,25 +143,26 @@
                                         <path stroke="currentColor" d="M8.12134 11.7807L4.13281 7.7599L8.12134 3.73914" stroke-width="1.48905" stroke-linecap="round" stroke-linejoin="round"></path>
                                         <path stroke="currentColor" d="M16.8961 16.6058V10.9767C16.8961 10.1236 16.5599 9.30549 15.9615 8.70226C15.3631 8.09902 14.5515 7.76013 13.7053 7.76013H4.13281" stroke-width="1.48905" stroke-linecap="round" stroke-linejoin="round"></path>
                                     </svg>
-                                    4 پاسخ
+                                    @php
+                                       echo App\Models\Replay::where("topic_id" , $topic->id)->count();
+ @endphp
+
                                 </a>
                             </div>
                         </div>
                     </div>
-                    <div class="mb-7 sm:text-right text-center">
+                    <div class="mb-7 sm:text-right text-right">
                         <h3 class="text-start transition duration-200 mb-3 font-bold md:text-33 sm:text-26 text-22 w-fit-content">
-                            <a href="/topics/show/1" class="text-start text-xl font-bold leading-relaxed text-gray-800 dark:text-white hover:text-blue-700 ">
-                                نحوه ی ارسال ارایه در فرم
+                            <a href="/topics/show/{{$topic->id}}" class="text-start text-xl font-bold leading-relaxed text-gray-800 dark:text-white hover:text-blue-700 ">
+                                {{$topic->title}}
                             </a>
                         </h3>
-                        <p class="font-normal sm:text-lg text-base !leading-loose text-gray-360 dark:text-gray-920  overflow-x-auto">سلام وقتتون بخیر
-                            کسی میتونه کمکم کنه بگه چه طور میتونم یک ارایه رو به کمک فرم ارسال کنم
-                            &amp;lt;input type="hidden" name="priceReng" id="priceRang" value=""&amp;gt;
-                            این کد رو با متد post میزنم این ارور رو میده
-                            htmlspecialchars(): Argument #1 ($string) must be of type string, array given
-                            میدونم...</p>
+
+                        <p class="font-normal sm:text-lg text-base !leading-loose text-gray-360 dark:text-gray-920  overflow-x-auto" {{--style="white-space: nowrap ; overflow: hidden ; text-overflow: ellipsis"--}}>
+                            {{$topic->body}}...</p>
                     </div>
                 </div>
+                @endforeach
             </div>
         </div>
 

@@ -50,6 +50,14 @@
 </nav>
 <section class="w-full">
     <div class="px-24">
+        @php
+            $quiz_number = 1;
+                 if (!empty($errors)){
+
+                                            echo $errors ;
+                                    }
+                 $i = 0
+        @endphp
         <form action="{{ route('topics.create.submit.form') }}" method="POST" class="">
             @csrf
             <label for="title" class="text-xl">عنوان :</label>
