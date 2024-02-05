@@ -5,7 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .text-responsive {
+            width: 90%;
+            max-width: 90%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
+    </style>
 </head>
 <body class="">
 <nav class="flex flex-wrap items-center justify-between p-6 bg-gray-100">
@@ -185,7 +194,7 @@
                                 <div class="w-full">
                                     <div class="flex items-start">
                                         <div class="w-full text-gray-800 content-area reply_item">
-                                            <p>{{$replay->body}}</p>
+                                            <p class="text-responsive">{{$replay->body}}</p>
                                         </div>
                                     </div>
                                     <hr class="mt-8 mb-5 border-gray-210 border-opacity-20">
@@ -237,7 +246,7 @@
             console.log(data)
             document.getElementById('data'+replayID).innerText = data.data
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
     };
 
     function AddDisLike(replayID) {

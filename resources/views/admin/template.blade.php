@@ -100,6 +100,20 @@
         </div>
         </a>
         </li>
+                <li
+                    class="w-full flex flex-row hover:bg-gray-100 rounded-md relative p-2 my-3">
+                    <a href="{{ route('admin.dashboard') }}" class="w-full flex flex-row items-center">
+
+                        <div class="text-start flex flex-row items-center w-full mt-1">
+                            <i class="fa-brands fa-microsoft"></i>
+                            <h1 class="text-black text-md font-normal mr-3">پیشخوان</h1>
+                        </div>
+                        <div w-full>
+                            <i class="  fa-solid fa-chevron-left text-end justify-end  mx-3"></i>
+                        </div>
+                    </a>
+
+                </li>
             </ul>
         </div>
         <div class="basis-10/12">

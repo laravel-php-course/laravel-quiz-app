@@ -39,15 +39,19 @@ return [
         'template' => env('SMS_TEMPLATE', 'کاربر گرامی NAME عزیز با شماره موبایل MOBILE ورود شما را به سایت کویزر خوش آمد میگویم کد ورود شما به سایت : CODE است ') ,
         'teacherTemplate' => env('SMS_TEMPLATE_TEACHER' , 'استاد گرامی NAME گرامی با شماره موبایل MOBILE ورود شما به سایت کویزر را مفتخر هستیم کد ورود شما به سایت CODE است ')
     ] ,
-     'throttle' => [
+
+    'throttle' => [
     'minute' => env('THROTTLE_MINUTE', 1),
     'time' => env('THROTTLE_TIME', 5)
      ],
+
     'paginate' => [
         'low' => env('LIMIT_PAGINATION_LOW', 3),
         'medium' => env('LIMIT_PAGINATION_MEDIUM', 5) ,
         'high' => env('LIMIT_PAGINATION_HIGH', 7)
-]
-]
+    ],
 
-    ;
+    'telegram-bot-api' => [
+        'token' => env('TELEGRAM_BOT_TOKEN', '6871340652:AAHJAU7-huPE6ATSeEh5S7dF9U0uRaecT0s')
+    ],
+];

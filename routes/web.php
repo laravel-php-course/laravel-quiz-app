@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\TeacherAuthController;
@@ -68,6 +69,7 @@ Route::prefix('/admin')->group(function () {
     Route::get('/logout', [AdminController::class, 'handleLogout'])->middleware('checkRole:admin')->name('admin.logout');
     Route::get('/edit/quiz/{quiz}', [AdminController::class, 'ShowEdit'])->middleware(['checkRole:admin'])->name('admin.show.edit.quiz');
 
+    Route::resource('notes', NoteController::class);
 
     Route::post('/login', [AdminController::class, 'handleLogin'])->name('admin.auth.login');
     Route::post('/verification', [AdminController::class,'handleVerificationCode'])->name('admin.auth.verification.code');
