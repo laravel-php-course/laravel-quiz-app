@@ -21,7 +21,7 @@ class QuizSeeder extends Seeder
             'title' => 'سوالات تخصصی موبایل پارت 1',
             'creator_type' => 'App\Models\Teacher',
             'creator_id' => '2',
-            'category_id' => '2',
+            'category_id' => '1',
             'total_questions' => '2' ,
             'quiz_time' => '60'
         ]);
@@ -41,7 +41,7 @@ class QuizSeeder extends Seeder
             'title' => 'سوالات تخصصی وب پارت 1',
             'creator_type' => 'App\Models\Teacher',
             'creator_id' => '2',
-            'category_id' => '1',
+            'category_id' => '3',
             'total_questions' => '2',
             'quiz_time' => '40'
         ]);
@@ -51,7 +51,7 @@ class QuizSeeder extends Seeder
             'title' => 'سوالات تخصصی وب پارت 2',
             'creator_type' => 'App\Models\Teacher',
             'creator_id' => '2',
-            'category_id' => '1',
+            'category_id' => '4',
             'total_questions' => '2',
             'quiz_time' => '20'
         ]);
@@ -61,7 +61,7 @@ class QuizSeeder extends Seeder
             'title' => 'سوالات تخصصی دیتابیس پارت 1',
             'creator_type' => 'App\Models\Teacher',
             'creator_id' => '1',
-            'category_id' => '3',
+            'category_id' => '5',
             'total_questions' => '2',
             'quiz_time' => '15'
         ]);
@@ -71,7 +71,7 @@ class QuizSeeder extends Seeder
             'title' => 'سوالات غیر تخصصی دیتابیس ',
             'creator_type' => 'App\Models\Teacher',
             'creator_id' => '1',
-            'category_id' => '3',
+            'category_id' => '6',
             'total_questions' => '1',
             'quiz_time' => '20'
         ]);
@@ -81,7 +81,7 @@ class QuizSeeder extends Seeder
             'title' => 'سوالات تخصصی دیتابیس پارت 2',
             'creator_type' => 'App\Models\Teacher',
             'creator_id' => '1',
-            'category_id' => '3',
+            'category_id' => '7',
             'total_questions' => '2',
             'quiz_time' => '60'
         ]);
@@ -91,7 +91,7 @@ class QuizSeeder extends Seeder
             'title' => 'سوالات طراحی شده توسط ادمین کوروش وب پارت 1',
             'creator_type' => 'App\Models\Admin',
             'creator_id' => '2',
-            'category_id' => '1',
+            'category_id' => '8',
             'total_questions' => '2',
             'quiz_time' => '2'
         ]);
@@ -101,7 +101,7 @@ class QuizSeeder extends Seeder
             'title' => 'سوالات طراحی شده توسط ادمین فرزاد وب پارت 2',
             'creator_type' => 'App\Models\Admin',
             'creator_id' => '1',
-            'category_id' => '1',
+            'category_id' => '9',
             'total_questions' => '2',
             'quiz_time' => '6'
         ]);

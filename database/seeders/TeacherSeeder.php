@@ -20,6 +20,8 @@ class TeacherSeeder extends Seeder
             'name' => 'FarzadTeacher',
             'email' => 'FarzadTeacher@mail.com',
             'mobile' => '09012062304',
+            'grade' => '10',
+            'study' => 'riazi',
             'verified_at' => '2023-12-31',
             'national_code' => '0925306762'
         ]);
@@ -29,6 +31,8 @@ class TeacherSeeder extends Seeder
             'name' => 'KouroshTeacher',
             'email' => 'KouroshTeacher@mail.com',
             'mobile' => '09150885271',
+            'grade' => '11',
+            'study' => 'shimi',
             'verified_at' => '2023-12-31',
             'national_code' => '0925000000'
         ]);

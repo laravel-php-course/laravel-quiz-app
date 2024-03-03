@@ -16,7 +16,7 @@ class CategorySeeder extends Seeder
         if (Category::count())
             Category::truncate();
 
-        $categories = ['وب', 'موبایل', 'دیتابیس'];
+        $categories = [  'فیزیک دوازدهم' ,'هندسه دوازدهم' ,'شیمی دوازدهم' , 'ریاضی دوازدهم','فیزیک یازدهم' ,'هندسه یازدهم' ,'شیمی یازدهم' , 'ریاضی یازدهم','فیزیک دهم' ,'هندسه دهم' ,'شیمی دهم' , 'ریاضی دهم'];
 
         foreach ($categories as $category)
         {

@@ -40,7 +40,7 @@ Route::post('/CodeLogin', [UserAuthController::class,'handleCodeLogin'])->name('
 
 Route::prefix('/teacher')->group(function () {
     /* GET */
-    Route::get('/register', [TeacherAuthController::class, 'ShowRegisterForm'])->middleware('checkTeacherActive')->name('teacher.register');
+    Route::get('/register', [TeacherAuthController::class, 'ShowRegisterForm'])->name('teacher.register');
     Route::get('/login', [TeacherAuthController::class, 'ShowLogInForm'])->name('teacher.logIn');
     Route::get('/dashboard', [TeacherAuthController::class, 'dashboard'])->middleware(['checkActiveTeacher', 'checkRole:teacher'])->name('teacher.dashboard');
     Route::get('add/quiz', [TeacherController::class, 'ShowQuizCreateForm'])->middleware(['checkActiveTeacher', 'checkRole:teacher'])->name('teacher.add.quiz');

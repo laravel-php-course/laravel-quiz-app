@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('national_code', 10)->unique();
             $table->string('verified_code', 6)->nullable();
             $table->enum('status', Teacher::STATUS)->default(Teacher::PENDING);
+            $table->enum('Grade', ['10' , '11' , '12']);
+            $table->enum('study', ['riazi' , 'physics' , 'shimi' , 'hendese']);
             $table->timestamp('verified_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
