@@ -30,6 +30,12 @@ class QuizController extends Controller
 
         return view('quiz.quizPage', ['quiz' => $quiz, 'code' => $code]);
     }
+    public function Show()
+    {
+    $quiz = Quiz::all();
+
+        return view('quiz.all', ['quizzes' => $quiz ]);
+    }
     public function showKarname(Request $request)
     {
 

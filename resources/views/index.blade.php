@@ -1,72 +1,141 @@
-<!doctype html>
-<html dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @vite('resources/css/app.css')
-</head>
-<body class="">
-<nav class="flex items-center justify-between flex-wrap bg-gray-100 p-6">
-    <div class="flex items-center flex-shrink-0 text-purple-500 mr-6">
-        <svg class="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/></svg>
-        <span class="font-semibold text-xl tracking-tight">Tailwind CSS</span>
-    </div>
-    <div class="block md:hidden">
-        <button class="flex items-center px-3 py-2 border rounded text-purple-500 border-purple-500 hover:text-white hover:border-white hover:bg-purple-500">
-            <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
-        </button>
-    </div>
-    <div class="w-full block flex-grow md:flex md:items-center md:w-auto">
-        <div class="text-sm md:flex-grow">
-            <a href="#responsive-header" class="block mt-4 md:inline-block md:mt-0 text-purple-500 hover:bg-purple-500 p-3 font-bold hover:text-white mr-4">
-               آزمون ها
+@extends('template')
+@section('title')
+    صفحه اصلی سایت من
+@endsection
+@section('content')
+
+    <div class="grid grid-cols-3 md:m-5 " >
+        <div class="col-span-3 lg:col-span-2 bg-white border-dashed border-2 border-purple-600 p-3 rounded-md m-5" >
+            <h2 class="md:text-3xl text-lg m-3 text-purple-700">اخرین ازمون ها :</h2>
+            @foreach($quizzes as $quiz)
+
+
+            <a href="{{ route('quiz.ShowExam', ['quiz' => $quiz->id]) }}"  class="w-full  gird grid-cols-2 flex bg-white items-center">
+                <img src="../ejtemae.webp" alt="" class="md:h-[200px] md:w-[150px] h-[100px] w-[75px] m-2 rounded-md" >
+                <div class="w-full p-3">
+                    <h1 class="md:text-2xl text-md m-3">   {{ $quiz->title }}</h1>
+                    <h4 class="md:text-sm text-xs text-purple-700">{{ $quiz->creator->name }}</h4>
+                    <div class="relative overflow-x-auto border-2 rounded-md">
+                        <table class="w-full md:text-sm text-xs text-gray-500 text-center">
+                            <thead class="text-2xs md:text-xs text-gray-700 uppercase bg-gray-100">
+                            <tr>
+                                <th scope="col" class=" md:px-6 px-3  md:py-3 py-2 text-2xs md:text-xs">تعداد سوالات</th>
+                                <th scope="col" class=" md:px-6 px-3  md:py-3 py-2 text-2xs md:text-xs">سطح دشواری</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="bg-white">
+                                <th scope="row" class=" md:px-6 px-3  md:py-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white text-2xs md:text-xs">{{ $quiz->total_questions }} </th>
+                                <th scope="row" class=" md:px-6 px-3  md:py-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white text-2xs md:text-xs">{{ $quiz->category->title }}</th>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </a>
-            <a href="#responsive-header" class="block mt-4 md:inline-block md:mt-0 text-purple-500 hover:bg-purple-500 p-3 font-bold hover:text-white mr-4">
-                سوالات
-            </a>
-            <a href="#responsive-header" class="block mt-4 md:inline-block md:mt-0 text-purple-500 hover:bg-purple-500 p-3 font-bold hover:text-white mr-4">
-                دبیران
-            </a>
-            <a href="{{ route('topics.all.form') }}" class="block mt-4 md:inline-block md:mt-0 text-purple-500 hover:bg-purple-500 p-3 font-bold hover:text-white mr-4">
-                تالار گفتمان
-            </a>
-        </div>
-        <div>
-            @if(auth()->check())
-                <a href="/" class="inline-block btn">پروفایل</a>
-                <a href="{{route('user.logOut')}}" class="inline-block btn bg-red-500">خروج</a>
-            @elseif(auth()->guard('teacher')->check())
-                <a href="teacher/dashboard" class="inline-block btn">  استاد پروفایل</a>
-                <a href="{{route('teacher.auth.Logout')}}" class="inline-block btn bg-red-500">خروج</a>
-            @else
-                <a href="/registration" class="inline-block btn">ثبت نام / ورود</a>
-            @endif
+                <div class="border-dashed m-2 border-b-2 bg-white mx-16 border-purple-600"></div>
+            @endforeach
+
+
 
         </div>
+        <div class="col-span-3 lg:col-span-1">
+            <div class="border-dashed border-2 bg-white border-purple-600 p-3 rounded-md m-5">
+                <h2 class="md:text-3xl text-lg m-3 text-purple-700">اخرین تکلیف ها :</h2>
+
+
+                <div class="relative overflow-x-auto">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+
+                        <tbody>
+                        <tr class="bg-white dark:bg-gray-800 text-xs md:text-sm">
+                            <th scope="col" class="md:px-6 px-3 md:py-3 p-2 rounded-s-lg">ریاضی</th>
+                            <th scope="row" class="md:px-6 px-3 md:py-4 p-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">صفحه 17 تا 22 حل شود</th>
+                        </tr>
+                        <tr class="bg-white dark:bg-gray-800 text-xs md:text-sm">
+                            <th scope="col" class="md:px-6 px-3 md:py-3 p-2 rounded-s-lg">هندسه</th>
+                            <th scope="row" class="md:px-6 px-3 md:py-4 p-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">صفحه 24 تا 29 حل شود</th>
+                        </tr>
+                        <tr class="bg-white dark:bg-gray-800 text-xs md:text-sm">
+                            <th scope="col" class="md:px-6 px-3 md:py-3 p-2 rounded-s-lg">فیزیک</th>
+                            <th scope="row" class="md:px-6 px-3 md:py-4 p-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">پرسش کلاسی از درس 2</th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="border-dashed border-2 bg-white border-purple-600 p-3 rounded-md m-5">
+                <h2 class="md:text-3xl text-lg m-3 text-purple-700">اخرین پرسش ها :</h2>
+
+@foreach($topices as $topic)
+                <div class="border-2 m-2 p-2  flex items-center">
+                    <img src="../profile-picture-5 (1).jpg" class="rounded-full m-2 w-[30px] h-[30px] col-span-1" alt="">
+                    <div class="justify-right">
+                        <h4 class="md:text-lg text-sm align-middle whitespace-nowrap overflow-hidden w-[150px]" style="text-overflow: ellipsis;">
+                            {{$topic->title}}</h4>
+                        <span class="md:text-sm text-2xs text-gray-600"> بازدید : 123</span>
+                        <span class="md:text-sm text-2xs text-gray-600"> ریپلای :         @php
+                                echo App\Models\Replay::where("topic_id" , $topic->id)->count();
+                            @endphp</span>
+                        <span class="md:text-sm text-2xs text-gray-600"> لایک :         @php
+                                echo App\Models\Like::where("topic_id" , $topic->id)->count() - App\Models\disLike::where("topic_id" , $topic->id)->count();
+                            @endphp</span>
+                    </div>
+                </div>
+                @endforeach
+
+            </div>
+        </div>
     </div>
-</nav>
-<section class="flex flex-row flex-wrap w-full">
-    @foreach($quizzes as $quiz)
-        <a href="{{ route('quiz.ShowExam', ['quiz' => $quiz->id]) }}" class="lg:w-1/4 md:w-1/2  w-full p-3">
-            <div class="w-full rounded-3 border border-gray-200">
-                <div class="card-header flex justify-center">
-                    <img src="data:image/jpeg;base64,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" alt="" class="">
+
+
+    </div>
+
+
+
+    <div class="md:m-32 m-6">
+        <div id="default-carousel" class="relative w-full" data-carousel="slide">
+            <!-- Carousel wrapper -->
+            <div class="relative md:h-96 h-56 overflow-hidden rounded-lg ">
+                <!-- Item 1 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <img src="../photo1707545723 (1).jpeg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-full" alt="...">
                 </div>
-                <div class="card-body flex justify-center">
-                    {{ $quiz->title }}
-                </div>
-                <div class="card-footer flex justify-between">
-                <span>
-                    دسته بندی : {{ $quiz->category->title }}
-                </span>
-                    <span>
-                    زمان آزمون : {{ $quiz->quiz_time }} دقیقه
-                </span>
+                <!-- Item 2 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <img src="../photo1707545723.jpeg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-full" alt="...">
                 </div>
             </div>
-        </a>
-    @endforeach
-</section>
-</body>
-</html>
+            <!-- Slider indicators -->
+            <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+                <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
+                <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
+                <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
+            </div>
+            <!-- Slider controls -->
+            <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+            <svg class="w-4 h-4 text-black dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+            </svg>
+            <span class="sr-only">Previous</span>
+        </span>
+            </button>
+            <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+            <svg class="w-4 h-4 text-black dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+            </svg>
+            <span class="sr-only">Next</span>
+        </span>
+            </button>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
 
+</div>
+@endsection

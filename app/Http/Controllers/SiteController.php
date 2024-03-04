@@ -19,8 +19,9 @@ class SiteController extends Controller
 {
     public function Home()
     {
-        $quizzes = Quiz::all();
-        return view('index', ['quizzes' => $quizzes]);
+        $quizzes = Quiz::latest()->take(2)->get();
+        $topices = Topic::latest()->take(3)->get();
+        return view('index', ['quizzes' => $quizzes , 'topices' => $topices]);
     }
     public function registration()
     {
