@@ -93,10 +93,11 @@
     let student = document.getElementById('student');
     let go = document.getElementById('go');
     teacher.addEventListener('click' , function () {
-        go.href = "/src/t_login.html"
+        go.href = "/teacher/login"
+
     })
     student.addEventListener('click' , function () {
-        go.href = "/src/login.html"
+        go.href = "/logIn"
     })
 </script>
 </div>

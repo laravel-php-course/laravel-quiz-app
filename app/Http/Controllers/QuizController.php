@@ -7,6 +7,7 @@ use App\Http\Requests\Quiz\CreateQuizRequest;
 use App\Http\Requests\Quize\createQuizeRequest;
 use App\Http\Requests\Quize\handleEditQuizRequest;
 use App\Models\Answer;
+use App\Models\Category;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\QuizAction;
@@ -33,8 +34,16 @@ class QuizController extends Controller
     public function Show()
     {
     $quiz = Quiz::all();
+    $Category = Category::all();
 
-        return view('quiz.all', ['quizzes' => $quiz ]);
+        return view('quiz.all', ['quizzes' => $quiz , 'Category' => $Category]);
+    }
+    public function ShowDetail(Request $request , $quiz)
+    {
+        $quizDetail = Quiz::with('creator' , 'category')->find($quiz);
+
+
+        return view('quiz.detail', ['quiz' => $quizDetail]);
     }
     public function showKarname(Request $request)
     {

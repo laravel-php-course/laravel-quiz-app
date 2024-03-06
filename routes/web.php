@@ -80,6 +80,7 @@ Route::prefix('/admin')->group(function () {
 Route::prefix('/quiz')->group(function() {
    /* GET */
     Route::get('/exam/{quiz}', [QuizController::class, 'ShowExam'])->middleware('checkUser')->name('quiz.ShowExam');
+    Route::get('/quiz/{quiz}', [QuizController::class, 'ShowDetail'])->name('quiz.quizDescription');
     Route::get('/all', [QuizController::class, 'Show'])->name('quiz.all');
     Route::get('/del/quiz/{quiz}', [QuizController::class, 'DeleteExam'])->name('quiz.DeleteExam');
     Route::get('/karname', [QuizController::class, 'showKarname'])->name('quiz.showKarname');
