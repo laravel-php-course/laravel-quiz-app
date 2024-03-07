@@ -1,92 +1,85 @@
-<!doctype html>
-<html dir="rtl">
-
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @vite('resources/css/app.css')
-
+    <title>ورود</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 </head>
+<body class="h-screen flex items-center justify-center">
 
-<body class="bg-gray-100">
-<div class="flex justify-center h-screen ">
-    <form action="{{ route('user.auth.register') }}" method="post" class="p-8 m-auto bg-white rounded">
-        @csrf
-        <h1 class="text-2xl text-center">ثبت نام</h1>
-        <h2 class="text-xl text-red-600 text-center">
-@isset($codeNotCorrect)
-                {{$codeNotCorrect}}
-            @endisset
-        </h2>
-        <div class="flex">
-            <label class="px-4 mt-4 font-bold text-gray-500 ">نام</label>
-            <input class="input" type="text" name="name" placeholder="نام را وارد کنید ...">
-        </div>
-        <div class="flex">
-            <label class="px-4 font-bold text-gray-500 ">ایمیل</label>
-            <input {{ old('type') == 'mobile' ? '' : 'checked' }} class="" type="radio" value="email" name="type" id="email">
-            <label class="px-4 font-bold text-gray-500 ">موبایل</label>
-            <input {{ old('type') == 'mobile' ? 'checked' : '' }} class="" type="radio" value="mobile" name="type" id="mobile">
-            @error('type')
-            <div class="text-red-500">
-                {{ $message }}
+<form class="max-w-sm mx-auto block" action="{{ route('user.auth.register') }}" method="post">
+    <div>
+        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">نام کاربری</label>
+        <input type="text" id="first_name" name="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="kourosh" required />
+    </div>
+    @csrf
+
+    <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+        <ul class="flex flex-wrap -mb-px">
+            <li class="inline-block p-4 border-b-2 text-blue-600 active border-blue-600  rounded-t-lg   " id="email_input">
+                <label for="email_input">ایمیل</label>
+                <input href="#" id="email_radio" checked type="radio"  value="email" name="type" >
+            </li>
+            <li class="inline-block p-4 border-b-2 "  for="phone_input " id="phone_input">
+                <label for="phone_input ">تلفن</label>
+                <input href="#" id="phone_radio" type="radio" value="mobile" name="type" >
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="my-4" id="email">
+        <div class="relative">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
+                    <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
+                    <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
+                </svg>
             </div>
-            @enderror
+            <input type="text" name="email" id="email-address-icon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@gmail.com">
         </div>
-        <div class="{{ old('type') == 'mobile' ? 'hidden' : 'flex' }}" id="email-container">
-            <label class="px-4 mt-4 font-bold text-gray-500 ">ایمیل</label>
-            <input class=" input" type="text" name="email" placeholder="ایمیل را وارد کنید ...">
-            @error('email')
-            <div class="text-red-500">
-                {{ $message }}
+    </div>
+    <div class="my-4 hidden" id="phone">
+        <div class="relative">
+            <div class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 19 18">
+                    <path d="M18 13.446a3.02 3.02 0 0 0-.946-1.985l-1.4-1.4a3.054 3.054 0 0 0-4.218 0l-.7.7a.983.983 0 0 1-1.39 0l-2.1-2.1a.983.983 0 0 1 0-1.389l.7-.7a2.98 2.98 0 0 0 0-4.217l-1.4-1.4a2.824 2.824 0 0 0-4.218 0c-3.619 3.619-3 8.229 1.752 12.979C6.785 16.639 9.45 18 11.912 18a7.175 7.175 0 0 0 5.139-2.325A2.9 2.9 0 0 0 18 13.446Z"/>
+                </svg>
             </div>
-            @enderror
+            <input type="text" name="mobile" id="phone-input" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="091234567"  />
         </div>
-        <div class="{{ old('type') == 'mobile' ? 'flex' : 'hidden' }}" id="mobile-container">
-            <label class="px-4 mt-4 font-bold text-gray-500 ">موبایل</label>
-            <input class=" input" type="text" name="mobile" placeholder="موبایل را وارد کنید ...">
-            @error('mobile')
-            <div class="text-red-500">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
-        <a href="{{route('user.logIn')}}" class="block my-2 mr-4 text-sm text-gray-400 ">حساب دارم / ورود</a>
-        <div class="flex ">
-            <div class="btn flex submitLoader">
-        <input class="submit "  type="submit" name="submit" value="ثبت" id="submit">
-        <svg aria-hidden="true" class="hidden loader w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-        </svg></div></div>
-    </form>
-</div>
+    </div>
+
+
+    <button type="submit" class="text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">ثبت نام</button>
+    <a href="{{route('user.logIn')}}" class="block my-2 mr-4 text-sm text-gray-400 ">حساب دارم / ورود</a>
+</form>
+
+
 </body>
-
-</html>
 <script>
-    const emailInput = document.getElementById('email');
-    const mobileInput = document.getElementById('mobile');
+    let email_input = document.getElementById('email_input')
+    let phone_input = document.getElementById('phone_input')
+    let email = document.getElementById('email')
+    let phone = document.getElementById('phone')
+    email_input.addEventListener('click' , function() {
+        email.classList.remove('hidden');
+        phone.classList.add('hidden');
+        document.getElementById('email_radio').checked = true
 
-    emailInput.addEventListener('click', (event) => {
-        document.querySelector('#email-container').classList.add('flex');
-        document.querySelector('#email-container').classList.remove('hidden');
-
-        document.querySelector('#mobile-container').classList.add('hidden');
-        document.querySelector('#mobile-container').classList.remove('flex');
+        email_input.classList.add("text-blue-600" ,"border-blue-600" )
+        phone_input.classList.remove("text-blue-600" ,"border-blue-600" )
     });
-    mobileInput.addEventListener('click', (event) => {
-        document.querySelector('#mobile-container').classList.add('flex');
-        document.querySelector('#mobile-container').classList.remove('hidden');
+    phone_input.addEventListener('click' , function() {
+        email.classList.add('hidden');
+        phone.classList.remove('hidden');
+        document.getElementById('phone_radio').checked = true
 
-        document.querySelector('#email-container').classList.add('hidden');
-        document.querySelector('#email-container').classList.remove('flex');
-    });
-    document.querySelector('input.submit').addEventListener('click', (event) => {
-        document.querySelector('.loader').classList.remove('hidden')
-        document.querySelector('div.submitLoader').classList.add('bg-gray-300')
-
-    });
-
-
+        phone_input.classList.add("text-blue-600" ,"border-blue-600" )
+        email_input.classList.remove("text-blue-600" ,"border-blue-600" )
+    })
 </script>
+</html>

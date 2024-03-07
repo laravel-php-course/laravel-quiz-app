@@ -31,7 +31,8 @@ class registerTeacherRequest extends FormRequest
             'email'  => 'required|email' ,
             'mobile' => ['required', 'numeric', new MobileRule()],
             'code'   => ['required', 'numeric', new Nationalcode()],
-            /*'ability' => 'required|'*/
+            'grade'  => 'required' ,
+            'study'  => 'required'
         ];
     }
 }

@@ -24,7 +24,11 @@
 
                 </li>
             </ul>
- @if(!\Illuminate\Support\Facades\Auth::check())
+            @if(auth()->check())
+                <a href="/quiz/exam/{{$quiz->id}}" class="p-2 bg-green-600 rounded-md px-6 hover:bg-transparent hover:border-2 hover:border-green-600 hover:text-green-600 hover:shadow-md hover:shadow-green-500 ">شروع آزمون</a>
+            @elseif(auth()->guard('teacher')->check())
+                <a href="/quiz/exam/{{$quiz->id}}" class="p-2 bg-green-600 rounded-md px-6 hover:bg-transparent hover:border-2 hover:border-green-600 hover:text-green-600 hover:shadow-md hover:shadow-green-500 ">شروع آزمون</a>
+            @else
                 <div class="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
                     <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
@@ -36,10 +40,8 @@
                 </div>
                 <a href="/quiz/exam/{{$quiz->id}}" class="p-2 bg-gray-400 rounded-md px-6 hover:shadow-md  " disabled>شروع آزمون</a>
 
-            @else
-                <a href="/quiz/exam/{{$quiz->id}}" class="p-2 bg-green-600 rounded-md px-6 hover:bg-transparent hover:border-2 hover:border-green-600 hover:text-green-600 hover:shadow-md hover:shadow-green-500 ">شروع آزمون</a>
-
             @endif
+
                  </div>
 
     </div>

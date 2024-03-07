@@ -6,6 +6,7 @@ use App\Http\Requests\resendRequest;
 use App\Http\Requests\Teacher\registerTeacherRequest;
 use App\Http\Requests\UserAuth\CodeRequest;
 use App\Http\Requests\UserAuth\loginRequest;
+use App\Models\Category;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Services\VerificationService;
@@ -25,7 +26,8 @@ class TeacherAuthController extends Controller
     }
     public function ShowRegisterForm()
     {
-        return view('teacher.RegisterTeacher');
+
+        return view('teacher.RegisterTeacher' );
     }
     public function handleRegister(registerTeacherRequest $request)
     {
@@ -35,9 +37,11 @@ class TeacherAuthController extends Controller
         $email = $request->input('email');
         $mobile = $request->input('mobile');
         $nationalCode = $request->input('code');
+        $grade = $request->input('grade');
+        $study = $request->input('study');
         $code = VerificationService::generteCode();
 
-        $cacheValue = json_encode(['code' => $code, 'name' => $name,'email' => $email,'mobile' => $mobile ,'nationalCode' => $nationalCode, 'type' => $field /*, 'ability' => $ability*/]);
+        $cacheValue = json_encode(['code' => $code, 'name' => $name,'email' => $email,'mobile' => $mobile ,'nationalCode' => $nationalCode, 'type' => $field  , 'grade' => $grade , 'study' => $study]);
         VerificationService::delete($value);
         VerificationService::set($value, $cacheValue, 10);
         VerificationService::sendCode($value, $field, $code);
@@ -61,8 +65,9 @@ class TeacherAuthController extends Controller
                 'email' => $result['email'] ,
                 'mobile' => $result['mobile'] ,
                 'national_code' => $result['nationalCode'] ,
-                'status' => Teacher::PENDING
-       /*         'ability' => $result['ability']*/
+                'status' => Teacher::PENDING ,
+                'grade' => $result['grade'] ,
+                'study' => $result['study']
 
             ];
 
@@ -74,7 +79,7 @@ class TeacherAuthController extends Controller
             return view('notification')->with([
                 'message' => $message,
                 'type'    => 'success',
-                'link'    => ['url' => route('teacher.logIn'), 'title' => "ورود به حساب کاربری"]
+                'link'    => ['url' => route('home'), 'title' => "برگشت به سایت"]
             ]);
         } else {
             dd($request->input('Code') , $result['code']);

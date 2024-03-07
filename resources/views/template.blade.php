@@ -30,13 +30,20 @@
     <div class="col-span-1 flex">
 
 
-        <!-- Modal toggle -->
-        <button data-modal-target="select-modal" data-modal-toggle="select-modal" class="block mr-auto text-purple border-2 text-2xs md:text-sm border-purple-500 rounded-md m-2 p-1" type="button">
-            ورود / ثبت نام
-        </button>
-
         <!-- Main modal -->
-        <div id="select-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            @if(auth()->check())
+                <button class="bg-purple-700 text-white font-bold p-2 rounded-lg m-2 px-4 mr-auto">پروفایل</button>
+                <a href="{{route('user.logOut')}}" class="bg-red-700 text-white font-bold p-2  rounded-lg m-2 px-4">خروج</a>
+            @elseif(auth()->guard('teacher')->check())
+                <a href="teacher/dashboard" class="bg-purple-700 text-white font-bold p-2 rounded-lg m-2 px-4 mr-auto">  استاد پروفایل</a>
+                <a href="{{route('teacher.auth.Logout')}}" class="bg-red-700 text-white font-bold p-2  rounded-lg m-2 px-4">خروج</a>
+            @else
+                <button data-modal-target="select-modal" data-modal-toggle="select-modal" class="block mr-auto text-purple border-2 text-2xs md:text-sm border-purple-500 rounded-md m-2 p-1" type="button">
+                    ورود / ثبت نام
+                </button>
+            @endif
+
+            <div id="select-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-md max-h-full">
                 <!-- Modal content -->
                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
