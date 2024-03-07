@@ -45,7 +45,7 @@ class SiteController extends Controller
         return view('all_topics', [
             'categories' => Category::all(['id', 'title']),
             'jalali' => '10',
-            'topics' => Topic::with('users' , 'replays')->where('status' , 'Active')->paginate(10)
+            'topics' => Topic::with('users' , 'replays')->where('status' , 'Active')->latest()->paginate(10)
         ]);
     }
     public function ShowAllTopicsFiltered(Request $request)
@@ -82,8 +82,11 @@ class SiteController extends Controller
             'category_id'  => $request->category,
             'creator_id'   => $request->user()->id
         ]);
-        return redirect("/topics/all")->with(['msg' => 'تاپیک با موفقیت ساخته شد بعد از بازبینی توسط ادمین انتشار داده خواهد شد و با پیامک به شما اطلاع داده خوهد شد']);
-        dd($topic);
+          return view('notification')->with([
+            'message' => 'تاپیک شما با موفقیت اضافه شد باید ادمین تاییدش کنه هروفت تایید شد بهت میگم عزیزم',
+            'type'    => 'success',
+            'link'    => ['url' => '/topics/all', 'title' => "برگشت به سایت"]
+        ]);
     }
 
     public function HandleReplayLike(HandleReplayLikeRequest $request)

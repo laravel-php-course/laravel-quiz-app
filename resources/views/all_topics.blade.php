@@ -1,173 +1,135 @@
-<!doctype html>
-<html dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @vite('resources/css/app.css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+@extends('template')
+@section('content')
 
-</head>
-<body class="">
-<nav class="flex items-center justify-between flex-wrap bg-gray-100 p-6">
-    <div class="flex items-center flex-shrink-0 text-purple-500 mr-6">
-        <svg class="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/></svg>
-        <span class="font-semibold text-xl tracking-tight">Tailwind CSS</span>
+<div class="grid grid-cols-4 lg:mx-14 mx-4 gap-4 md:p-4 my-2">
+    <div class="col-span-4 flex items-center hidden md:flex">
+        <img src="../topic_icon.png" class="w-[200px]" alt="">
+        <h3 class="text-4xl justify-center ">پرسش و پاسخ</h3>
     </div>
-    <div class="block md:hidden">
-        <button class="flex items-center px-3 py-2 border rounded text-purple-500 border-purple-500 hover:text-white hover:border-white hover:bg-purple-500">
-            <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
-        </button>
+    <div class="md:col-span-1 col-span-4 border-2 border-purple-500 rounded-md w-100 p-4 rounded-xl border-l-4 border-b-4">
+        <h4 class="md:text-lg text-xs font-bold text-center mb-4 ">فیلتر ها </h4>
+        <hr class="border-1 border-purple-600 ">
+        <form  action="{{route('topics.all.filtered')}}" method="get" class="flex md:block flex-wrap" >
+
+            @foreach($categories as $category)
+                <div class="flex items-center mt-4 m-2">
+                    <label for="purple-checkbox" class="ml-2 md:text-lg text-xs font-medium text-gray-900 dark:text-gray-300">{{ $category->title }} </label>
+                    <input  id="purple-checkbox" value="{{ $category->id }}" name="category_id" type="radio" class="w-5 h-5 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                </div>
+            @endforeach
+            <input type="submit" class="bg-green-600 p-2 text-white rounded-lg block" value="تایید">
+        </form>
+
     </div>
-    <div class="w-full block flex-grow md:flex md:items-center md:w-auto">
-        <div class="text-sm md:flex-grow">
-            <a href="#responsive-header" class="mt-4 md:mt-0 text-purple-500 hover:bg-purple-500 p-3 font-bold hover:text-white mr-4">
-                آزمون ها
-            </a>
-            <a href="#responsive-header" class="mt-4 md:mt-0 text-purple-500 hover:bg-purple-500 p-3 font-bold hover:text-white mr-4">
-                سوالات
-            </a>
-            <a href="#responsive-header" class="mt-4 md:mt-0 text-purple-500 hover:bg-purple-500 p-3 font-bold hover:text-white mr-4">
-                دبیران
-            </a>
-            <a href="{{ route('topics.all.form') }}" class="mt-4 md:mt-0 text-purple-500 hover:bg-purple-500 p-3 font-bold hover:text-white mr-4">
-                تالار گفتمان
-            </a>
-        </div>
-        <div>
-            @if(auth()->check())
-                <a href="/" class="inline-block btn">پروفایل</a>
-                <a href="{{route('user.logOut')}}" class="inline-block btn bg-red-500">خروج</a>
-            @elseif(auth()->guard('teacher')->check())
-                <a href="teacher/dashboard" class="inline-block btn">  استاد پروفایل</a>
-                <a href="{{route('teacher.auth.Logout')}}" class="inline-block btn bg-red-500">خروج</a>
-            @else
-                <a href="/registration" class="inline-block btn">ثبت نام / ورود</a>
-            @endif
+    <div class="md:col-span-3 col-span-4">
+        @php
 
-        </div>
-    </div>
-</nav>
-<section class="w-full">
-    <div class="px-24">
-        <div class=" flex flex-wrap justify-between my-3">
-            <div class="flex items-center">
-                <img alt="topic-logo" src="{{ asset('images/topic_icon.png') }}">
-                <h1 class="text-4xl">پرسش و پاسخ</h1>
-            </div>
-            <div class="flex items-center justify-between">
-                <select id="countries" class="mx-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5">
-                    <option value="all" selected>همه</option>
-                    <option value="US">محبوبترین</option>
-                    <option value="CA">جدیدترین</option>
-                </select>
-                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5">
-                    <option value="all" selected>همه</option>
-                    <option value="US">محبوبترین</option>
-                    <option value="CA">جدیدترین</option>
-                </select>
-            </div>
-        </div>
-        <div class="flex">
-            <div class="lg:basis-3/12">
-                <div class="p-3 rounded-lg border border-2 border-gray-200">
-                    <h6 class="text-center text-lg">
-                        دسته بندی سوالات
-                    </h6>
-                    <hr class="my-4">
-                    <form  method="get" action="{{route('topics.all.filtered')}}">
-                    @foreach($categories as $category)
-<div class="flex items-center my-2 me-4">
-                            <input id="purple-checkbox" type="radio" name="category_id" value="{{ $category->id }}" class="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="purple-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $category->title }}</label>
-                </div>
-                    @endforeach
-                        <button type="submit" class=" bg-green-700  flex justify-center items-center font-medium p-2 rounded-xl group text-white border-2 border-green-700 hover:bg-white hover:text-green-700 transition duration-200 hover:shadow-lg">تایید فیلتر</button>
-                        </form>
-                </div>
-            </div>
-            <div class="lg:basis-9/12 ps-12">
-                <div class="grid grid-cols-12 xl:gap-4 gap-y-6 mb-6">
-                    <div class="xl:col-span-8 col-span-12">
-                        <div class="relative">
-                            <input type="text" placeholder="جست و جو در عناوین ..." class="px-16 bg-gray-100 focus:ring-purple-500 focus:border-purple-500 w-full h-16 pr-20 dark:bg-dark-930 rounded-xl border-none">
-                            <div class="p-3 rounded-md dark:text-white bg-gray-200 text-biscay-700 absolute top-1/2 transform -translate-y-1/2 right-5">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="7.24756" cy="7.24768" r="6.24756" stroke="currentColor" stroke-width="1.97944" stroke-linecap="round" stroke-linejoin="round"></circle>
-                                    <path d="M11.5938 11.9176L14.0431 14.3606" stroke="currentColor" stroke-width="1.97944" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="xl:col-span-4 col-span-12">
-                        <a href="{{ route('topics.create.form') }}" class="h-16 bg-purple-700  flex justify-center items-center font-medium text-xl rounded-xl group text-white border-2 border-purple-700 hover:bg-white hover:text-purple-700 transition duration-200 hover:shadow-lg">
-                            ثبت پرسش جدید
-                            <svg class="mr-2" width="39" height="39" viewBox="0 0 42 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path class="stroke-current text-white transition duration-200 dark:group-hover:text-purple-450 group-hover:text-purple-700" d="M16.293 20.7224H21.0723M25.8517 20.7224H21.0723M21.0723 20.7224V15.943V25.5017" stroke-width="2.53025" stroke-linecap="round" stroke-linejoin="round"></path>
-                                <path class="stroke-current text-white transition duration-200 dark:group-hover:text-purple-450 group-hover:text-purple-700" opacity="0.5" d="M7.9995 20.7225C7.9995 23.6454 8.15777 25.908 8.54928 27.6696C8.93759 29.4168 9.53832 30.5928 10.3702 31.4247C11.2021 32.2566 12.3781 32.8573 14.1253 33.2456C15.887 33.6372 18.1495 33.7954 21.0725 33.7954C23.9954 33.7954 26.2579 33.6372 28.0196 33.2456C29.7668 32.8573 30.9428 32.2566 31.7747 31.4247C32.6066 30.5928 33.2073 29.4168 33.5956 27.6696C33.9871 25.908 34.1454 23.6454 34.1454 20.7225C34.1454 17.7995 33.9871 15.537 33.5956 13.7754C33.2073 12.0281 32.6066 10.8521 31.7747 10.0202C30.9428 9.18833 29.7668 8.58759 28.0196 8.19928C26.2579 7.80778 23.9954 7.64951 21.0725 7.64951C18.1495 7.64951 15.887 7.80778 14.1253 8.19928C12.3781 8.58759 11.2021 9.18833 10.3702 10.0202C9.53832 10.8521 8.93759 12.0281 8.54928 13.7754C8.15777 15.537 7.9995 17.7995 7.9995 20.7225Z" stroke-width="2.53025" stroke-linecap="round" stroke-linejoin="round">
-                                </path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                @foreach($topics as $topic)
-                <div class="mb-5 flex flex-col bg-gray-100 shadow-lg rounded-xl sm:px-11 px-3 pt-8 pb-7">
-                    <div class="flex items-center justify-between lg:flex-nowrap flex-wrap mb-6">
-                        <div class="flex sm:items-start items-center sm:flex-row flex-col sm:text-right text-center lg:w-auto w-full">
-                            <div class="relative ">
-                                <div class="w-16 h-16 flex bg-gray-300 group relative rounded-full overflow-hidden border-4 border-solid border-gray-100">
-                                    <a href="/@Zsoltanpour">
-                                        <img class="transition duration-200 transform group-hover:scale-110 w-full h-full lozad" data-src="https://roocket.ir/img/default.png" alt="user-avatar" src="https://roocket.ir/img/default.png" data-loaded="true">
-                                        <div class="w-full h-full absolute top-0 right-0 bg-biscay-700 bg-opacity-20 z-0"></div>
-                                    </a>
-                                </div>
-                            </div>
+                 if (!empty($errors)){
 
-                            <div class="flex flex-col sm:mt-0 mt-3 sm:mr-3">
-                                <a href="/@Zsoltanpour" class="text-gray-800 font-bold dark:text-white dark:hover:text-blue-450 hover:text-blue-700 transition duration-200 text-2xl mb-2">
-                                    {{$topic->users->name}}</a>
-                                <div class="text-gray-600 dark:text-gray-920 font-normal text-sm flex items-center">
-                                    <div class="text-blue-500 dark:text-blue-450 font-medium ml-1" data-time-realtime="2024-01-31 17:13:23">4 ساعت پیش</div>
-                                    <div> توسط <a href="/@salar.mohammad2013" class="text-blue-500 dark:text-blue-450 font-medium hover:underline">محمد رضا</a> آپدیت شد</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex sm:items-center items-end lg:w-auto sm:mt-0 mt-3 sm:mx-0 w-fit-content   justify-end">
-                            <div class="flex items-center last:ml-0 sm:my-0  space-x-3 space-x-reverse">
-                                <div class="flex space-x-reverse space-x-3">
-                                </div>
-                            </div>
-                            <div class="flex items-center">
-                                <a href="/discuss/نحوه-ی-ارسال-ارایه-در-فرم" class="flex items-center px-5 py-1.5 rounded-lg bg-white mr-3 border border-opacity-0 border-white text-gray-450 group font-normal text-lg justify-center transition duration-200 hover:text-gray-50 hover:bg-gray-700">
-                                    <svg class="ml-2" width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke="currentColor" d="M8.12134 11.7807L4.13281 7.7599L8.12134 3.73914" stroke-width="1.48905" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        <path stroke="currentColor" d="M16.8961 16.6058V10.9767C16.8961 10.1236 16.5599 9.30549 15.9615 8.70226C15.3631 8.09902 14.5515 7.76013 13.7053 7.76013H4.13281" stroke-width="1.48905" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </svg>
-                                    @php
-                                       echo App\Models\Replay::where("topic_id" , $topic->id)->count();
- @endphp
+                                            echo $errors ;
+                                    }
+                 $i = 0
+        @endphp
+        <a data-modal-target="crud-modal" data-modal-toggle="crud-modal"  class="h-16 bg-purple-700 cursor-pointer flex justify-center items-center font-medium text-xl rounded-xl group text-white border-2 border-purple-700 hover:bg-white hover:text-purple-700 transition duration-200 hover:shadow-lg">
+            ثبت پرسش جدید
+            <svg class="mr-2" width="39" height="39" viewBox="0 0 42 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="stroke-current text-white transition duration-200 dark:group-hover:text-purple-450 group-hover:text-purple-700" d="M16.293 20.7224H21.0723M25.8517 20.7224H21.0723M21.0723 20.7224V15.943V25.5017" stroke-width="2.53025" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path class="stroke-current text-white transition duration-200 dark:group-hover:text-purple-450 group-hover:text-purple-700" opacity="0.5" d="M7.9995 20.7225C7.9995 23.6454 8.15777 25.908 8.54928 27.6696C8.93759 29.4168 9.53832 30.5928 10.3702 31.4247C11.2021 32.2566 12.3781 32.8573 14.1253 33.2456C15.887 33.6372 18.1495 33.7954 21.0725 33.7954C23.9954 33.7954 26.2579 33.6372 28.0196 33.2456C29.7668 32.8573 30.9428 32.2566 31.7747 31.4247C32.6066 30.5928 33.2073 29.4168 33.5956 27.6696C33.9871 25.908 34.1454 23.6454 34.1454 20.7225C34.1454 17.7995 33.9871 15.537 33.5956 13.7754C33.2073 12.0281 32.6066 10.8521 31.7747 10.0202C30.9428 9.18833 29.7668 8.58759 28.0196 8.19928C26.2579 7.80778 23.9954 7.64951 21.0725 7.64951C18.1495 7.64951 15.887 7.80778 14.1253 8.19928C12.3781 8.58759 11.2021 9.18833 10.3702 10.0202C9.53832 10.8521 8.93759 12.0281 8.54928 13.7754C8.15777 15.537 7.9995 17.7995 7.9995 20.7225Z" stroke-width="2.53025" stroke-linecap="round" stroke-linejoin="round">
+                </path>
+            </svg>
+        </a>
 
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-7 sm:text-right text-right">
-                        <h3 class="text-start transition duration-200 mb-3 font-bold md:text-33 sm:text-26 text-22 w-fit-content">
-                            <a href="/topics/show/{{$topic->id}}" class="text-start text-xl font-bold leading-relaxed text-gray-800 dark:text-white hover:text-blue-700 ">
-                                {{$topic->title}}
-                            </a>
+
+
+        <!-- Main modal -->
+        <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative p-4 w-full max-w-md max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 ">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                            ایجاد تاپیک جدید
                         </h3>
-
-                        <p class="font-normal sm:text-lg text-base !leading-loose text-gray-360 dark:text-gray-920  overflow-x-auto" {{--style="white-space: nowrap ; overflow: hidden ; text-overflow: ellipsis"--}}>
-                            {{$topic->body}}...</p>
+                        <button type="button" class=" text-gray-400 bg-transparent hover:bg-gray-200 cursor-pointer hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
                     </div>
+                    <!-- Modal body -->
+                    <form class="p-4 md:p-5" action="{{ route('topics.create.submit.form') }}" method="POST">
+                        @csrf
+                        <div class="grid gap-4 mb-4 grid-cols-2">
+                            <div class="col-span-2">
+                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">عنوان</label>
+                                <input type="text" name="title"  id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="تمرین 20 فصل 2 ریاضی دهم" required="">
+                            </div>
+                            <div class="col-span-2 sm:col-span-1">
+                                <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">دسته بندی</label>
+                                <select id="category" name="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    @foreach($categories as $category)
+                                    <option value="{{$category->id}}">{{$category->title}}</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+
+                            <div class="col-span-2">
+                                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">متن تاپیک</label>
+                                <textarea id="description" rows="4" name="body" class="block
+                           p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="این تمرین رو هرچی حل میکنم ..."></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+                            ایجاد تاپیک
+                        </button>
+                    </form>
                 </div>
-                @endforeach
             </div>
         </div>
+    @foreach($topics as $topic)
+            <a href="/topics/show/{{$topic->id}}" class="bg-purple-700 rounded-xl w-full grid grid-cols-12 md:m-2 my-2">
+                <div class="col-span-1"></div>
+                <div class="col-span-11">
+                    <div class="flex m-2  flex-nowrap items-center ">
+                        <img src="../profile.png" class="md:w-[60px] md:h-[60px] w-[40px] h-[40px] rounded-full border-4 md:m-2 m-1 border-gray-100" alt="">
+                        <div>
+                            <h3 class="md:text-2xl text-lg md:m-2 text-white font-bold" >{{$topic->users->name}}</h3>
+                            <span class="md:text-sm text-2xs block md:m-2 text-white"><span class="text-blue-400 font-bold">4 ساعت پیش</span> توسط <span class="text-blue-400 font-bold">{{$topic->users->name}}</span> بروزرسانی شد</span>
+                        </div>
+
+                    </div>
+                    <div class="bg-white shadow-lg shadow-white rounded-tr-xl rounded-bl-md  w-full p-4">
+
+                        <h3 class="text-purple-700 md:text-xl text-md font-bold">{{$topic->title}}</h3>
+                        <p class="text-md text-gray-800 m-4 md:block hidden whitespace-nowrap overflow-hidden w-[400px]" style="text-overflow:ellipsis">{{$topic->body}}</p>
+
+
+                        <div class="inline-flex rounded-md shadow-sm" role="group">
+                            <button type="button" class="md:px-4 px-2 md:py-2 py-1 flex items-center md:text-sm text-xs font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 bg-purple-200 text-purple-700">
+                                <img src="../icons8-reply-arrow-24.png" class="w-[15px] m-1" alt="">
+                                @php
+                                    echo App\Models\Replay::where("topic_id" , $topic->id)->count();
+                                @endphp پاسخ
+
+                            </button>
+                            <button type="button" class="md:px-4 px-2 md:py-2 py-1 flex items-center md:text-sm text-xs font-medium text-gray-900 bg-white border-t border-b border-l rounded-l-lg -full border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 bg-purple-200 text-purple-700">
+                                اطلاعات بیشتر
+                                <img src="../icons8-left-48.png" class="w-[15px] m-1" alt="">
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </a>
+        @endforeach
 
     </div>
-</section>
-</body>
-</html>
+</div>
 
+@endsection
