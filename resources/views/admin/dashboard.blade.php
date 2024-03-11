@@ -3,10 +3,7 @@
 @section('title')
     پیشخوان
 @endsection
-<link rel="stylesheet" href="{{ asset('css/multi_select.css') }}" />
-<script src="{{ asset('js/multi_select.js') }}"></script>
-<link type="text/css" rel="stylesheet" href="{{ url('datePicker/jalalidatepicker.min.css') }}" />
-<script type="text/javascript" src="{{ url('datePicker/jalalidatepicker.min.js') }}"></script>
+
 @section('content')
     <section class="p-4">
         <div class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4 w-full">

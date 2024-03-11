@@ -7,7 +7,7 @@
 
     <div class="grid grid-cols-7 gap-4 ">
         <div class="col-span-7 lg:col-span-1 md:col-span-2 m-4 flex items-center px-auto">
-            <img src="../ejtemae.webp" class="w-[100px] h-[150px] md:w-[150px] md:h-[200px] rounded-md border-b-4 hidden md:block border-r-4 border-dashed border-purple-500" alt="">
+            <img src="{{ asset('images/ejtemae.webp')}}" class="w-[100px] h-[150px] md:w-[150px] md:h-[200px] rounded-md border-b-4 hidden md:block border-r-4 border-dashed border-purple-500" alt="">
         </div>
         <div class="col-span-7 lg:col-span-6 md:col-span-5 p-4 bg-white rounded-md m-4 border-2 border-dashed border-purple-500">
             <h2 class="text-lg m-2 text-right">{{$quiz->title}}</h2>
@@ -46,8 +46,8 @@
 
     </div>
     <div class="w-100 p-5 bg-white rounded-md m-10 flex flex-wrap">
-        <span class="text-sm m-2"><img src="../1999625.png" alt="" class="w-[20px] inline-flex"> {{$quiz->creator->name}}</span>
-        <span class="text-sm m-2 text-blue-600"><img src="../7845466.png" alt="" class="w-[20px] inline-flex "> بروزرسانی شده در {{$quiz->updated_at}}</span>
+        <span class="text-sm m-2"><img src="{{ asset('images/1999625.png')}}" alt="" class="w-[20px] inline-flex"> {{$quiz->creator->name}}</span>
+        <span class="text-sm m-2 text-blue-600"><img src="{{ asset('images/7845466.png')}}" alt="" class="w-[20px] inline-flex "> بروزرسانی شده در {{$quiz->updated_at}}</span>
     </div>
 
 @endsection

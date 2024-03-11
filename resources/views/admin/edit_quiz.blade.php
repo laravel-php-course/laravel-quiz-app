@@ -1,4 +1,4 @@
-@extends('teacher.template')
+@extends('admin.template')
 
 @section('title')
     ایجاد امتحان

@@ -21,8 +21,9 @@ class QuizController extends Controller
 {
     public function ShowExam(Request $request, Quiz $quiz)
     {
-        if (QuizAction::where('user_id' , auth()->id())->where('finished_quiz' , 0)->count() == 0){
         $code = Str::random(16);
+        if (QuizAction::where('user_id' , auth()->id())->where('finished_quiz' , 0)->count() == 0){
+
         QuizAction::create([
             'code'     => $code,
             'user_id'  => auth()->id(),
@@ -35,6 +36,14 @@ class QuizController extends Controller
     {
     $quiz = Quiz::all();
     $Category = Category::all();
+
+        return view('quiz.all', ['quizzes' => $quiz , 'Category' => $Category]);
+    }
+    public function ShowFiltered(Request $request)
+    {
+        $quiz = Quiz::where('category_id',$request->filter)->get();
+        $Category = Category::all();
+
 
         return view('quiz.all', ['quizzes' => $quiz , 'Category' => $Category]);
     }
@@ -157,6 +166,10 @@ class QuizController extends Controller
                 ->whereIn('id', $userAnswers)
                 ->where('is_true_answer', true)
                 ->count();
+            $count_false_answer = DB::table('answers')
+                ->whereIn('id', $userAnswers)
+                ->where('is_true_answer', false)
+                ->count();
             $count_all_answer = DB::table('answers')
                 ->whereIn('id', $userAnswers)
                 ->count();
@@ -173,7 +186,7 @@ class QuizController extends Controller
             $answers[$question->id] = Answer::where('question_id' , $question->id)->get() ;
             }
             DB::commit();
-            return view('quiz.karname')->with(['data' => $quiz_code ,'questions' => $questions,'userAnswers' => $userAnswers,'answers' => $answers
+            return view('quiz.karname')->with(['data' => $quiz_code ,'time'=> $quiz_code->created_at,'count_false_answer' => $count_false_answer, 'count_true_answer' => $count_true_answer ,'count_all_answer' => $count_all_answer ,'score' => $Score,'questions' => $questions,'userAnswers' => $userAnswers,'answers' => $answers
                 , 'quiz' => $quiz]);
 
 

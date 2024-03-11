@@ -29,11 +29,20 @@ class SiteController extends Controller
     }
     public function HandleReplay(HandleReplayRequest $request)
     {
+        $user = '';
+        if (auth()->check()){
+            $user = Auth::id();
+        }elseif (auth()->guard('teacher')->check()){
+            $user = Auth::guard('teacher')->id();
+
+        }elseif (auth()->guard('admin')->check()){
+            $user = Auth::guard('admin')->id();
+        }
         $Replay = Replay::create([
             'body'         => $request->comment,
             'topic_id'  => $request->hidden,
             'title'  => 'باید تایتل رو حذف کنم',
-            'creator_id'   => $request->user()->id
+            'creator_id'   => $user
         ]);
         return redirect("/topics/show/$request->hidden");
     }
@@ -80,7 +89,7 @@ class SiteController extends Controller
             'body'         => $request->body,
             'title'        => $request->title,
             'category_id'  => $request->category,
-            'creator_id'   => $request->user()->id
+            'creator_id'   => $user = Auth::id()
         ]);
           return view('notification')->with([
             'message' => 'تاپیک شما با موفقیت اضافه شد باید ادمین تاییدش کنه هروفت تایید شد بهت میگم عزیزم',

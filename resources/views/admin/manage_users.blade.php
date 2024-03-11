@@ -238,9 +238,7 @@
                     @endforeach
                 </tbody>
                 <tfoot>
-                    <div class="bg-gray-50 pl-1 py-3">
-                        {{ $users->links() }}
-                    </div>
+
                 </tfoot>
             </table>
         </div>

@@ -3,7 +3,7 @@
 
 <div class="grid grid-cols-4 lg:mx-14 mx-4 gap-4 md:p-4 my-2">
     <div class="col-span-4 flex items-center hidden md:flex">
-        <img src="../topic_icon.png" class="w-[200px]" alt="">
+        <img src="{{ asset('images/topic_icon.png')}}" class="w-[200px]" alt="">
         <h3 class="text-4xl justify-center ">پرسش و پاسخ</h3>
     </div>
     <div class="md:col-span-1 col-span-4 border-2 border-purple-500 rounded-md w-100 p-4 rounded-xl border-l-4 border-b-4">
@@ -95,7 +95,7 @@
                 <div class="col-span-1"></div>
                 <div class="col-span-11">
                     <div class="flex m-2  flex-nowrap items-center ">
-                        <img src="../profile.png" class="md:w-[60px] md:h-[60px] w-[40px] h-[40px] rounded-full border-4 md:m-2 m-1 border-gray-100" alt="">
+                        <img src="{{ asset('images/profile.png')}}" class="md:w-[60px] md:h-[60px] w-[40px] h-[40px] rounded-full border-4 md:m-2 m-1 border-gray-100" alt="">
                         <div>
                             <h3 class="md:text-2xl text-lg md:m-2 text-white font-bold" >{{$topic->users->name}}</h3>
                             <span class="md:text-sm text-2xs block md:m-2 text-white"><span class="text-blue-400 font-bold">4 ساعت پیش</span> توسط <span class="text-blue-400 font-bold">{{$topic->users->name}}</span> بروزرسانی شد</span>
@@ -110,7 +110,7 @@
 
                         <div class="inline-flex rounded-md shadow-sm" role="group">
                             <button type="button" class="md:px-4 px-2 md:py-2 py-1 flex items-center md:text-sm text-xs font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 bg-purple-200 text-purple-700">
-                                <img src="../icons8-reply-arrow-24.png" class="w-[15px] m-1" alt="">
+                                <img src="{{ asset('images/icons8-reply-arrow-24.png')}}" class="w-[15px] m-1" alt="">
                                 @php
                                     echo App\Models\Replay::where("topic_id" , $topic->id)->count();
                                 @endphp پاسخ
@@ -118,7 +118,7 @@
                             </button>
                             <button type="button" class="md:px-4 px-2 md:py-2 py-1 flex items-center md:text-sm text-xs font-medium text-gray-900 bg-white border-t border-b border-l rounded-l-lg -full border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 bg-purple-200 text-purple-700">
                                 اطلاعات بیشتر
-                                <img src="../icons8-left-48.png" class="w-[15px] m-1" alt="">
+                                <img src="{{ asset('images/icons8-left-48.png')}}" class="w-[15px] m-1" alt="">
                             </button>
                         </div>
 

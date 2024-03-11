@@ -7,14 +7,14 @@
             <div class="mb-8">
                 <div class="flex flex-col items-start justify-between md:flex-row">
                     <div class="flex m-2  flex-nowrap items-center ">
-                        <img src="../profile.png" class="md:w-[60px] md:h-[60px] w-[40px] h-[40px] rounded-full border-4 md:m-2 m-1 border-gray-100" alt="">
+                        <img src="{{ asset('images/profile.png')}}" class="md:w-[60px] md:h-[60px] w-[40px] h-[40px] rounded-full border-4 md:m-2 m-1 border-gray-100" alt="">
                         <div class="ml-auto">
                             <h3 class="md:text-2xl text-lg md:m-2  font-bold" >{{$topic->users->name}}</h3>
                             <span class="md:text-sm text-2xs block md:m-2 "><span class="text-blue-600 font-bold">4 ساعت پیش</span> توسط <span class="text-blue-600 font-bold">{{$topic->users->name}}</span> مطرح شد</span>
                         </div>
                         <div class="flex items-center justify-left mr-auto text-left left-0">
                             <a href="#replies-list" class="flex items-center md:px-5 text-purple-600 px-2 md:py-1.5 py-0.5 rounded-lg bg-white md:mr-3 border border-opacity-0 border-white text-gray-450 group font-normal md:text-lg text-sm mr-auto justify-center transition duration-200 hover:text-gray-50 hover:bg-gray-700">
-                                <img src="../icons8-reply-arrow-24.png" class="w-[20px] h-[20px]" alt="">
+                                <img src="{{ asset('images/icons8-reply-arrow-24.png')}}" class="w-[20px] h-[20px]" alt="">
                                 @php
                                     echo App\Models\Replay::where("topic_id" , $topic->id)->count();
                                 @endphp
@@ -48,14 +48,14 @@
                     <div class="flex items-center px-4 md:mr-16 mr-6 pb-6 bg-white shadow-lg rounded-xl pt-9 mt-5">
                         <div class="w-full">
                             <div class="flex m-2  flex-nowrap items-center ">
-                                <img src="../profile.png" class="md:w-[60px] md:h-[60px] w-[40px] h-[40px] rounded-full border-4 md:m-2 m-1 border-gray-100" alt="">
+                                <img src="{{ asset('images/profile.png')}}" class="md:w-[60px] md:h-[60px] w-[40px] h-[40px] rounded-full border-4 md:m-2 m-1 border-gray-100" alt="">
                                 <div class="ml-auto">
                                     <h3 class="md:text-2xl text-lg md:m-2  font-bold" >{{$replay->creators->name}}</h3>
                                     <span class="md:text-sm text-2xs block md:m-2 "><span class="text-blue-600 font-bold">4 ساعت پیش</span> توسط <span class="text-blue-600 font-bold">کوروش</span> مطرح شد</span>
                                 </div>
                                 <div class="flex items-center justify-left mr-auto text-left left-0">
                                     <a href="#replies-list" class="flex items-center md:px-5 text-purple-600 px-2 md:py-1.5 py-0.5 rounded-lg bg-white md:mr-3 border border-opacity-0 border-white text-gray-450 group font-normal md:text-lg text-sm mr-auto justify-center transition duration-200 hover:text-gray-50 hover:bg-gray-700">
-                                        <img src="../icons8-reply-arrow-24.png" class="w-[20px] h-[20px]" alt="">
+                                        <img src="{{ asset('images/icons8-reply-arrow-24.png')}}" class="w-[20px] h-[20px]" alt="">
                                         3
                                     </a>
                                 </div>

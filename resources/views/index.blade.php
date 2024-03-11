@@ -11,7 +11,7 @@
 
 
             <a href="{{ route('quiz.ShowExam', ['quiz' => $quiz->id]) }}"  class="w-full  gird grid-cols-2 flex bg-white items-center">
-                <img src="../ejtemae.webp" alt="" class="md:h-[200px] md:w-[150px] h-[100px] w-[75px] m-2 rounded-md" >
+                <img src="{{ asset('images/ejtemae.webp') }}" alt="" class="md:h-[200px] md:w-[150px] h-[100px] w-[75px] m-2 rounded-md" >
                 <div class="w-full p-3">
                     <h1 class="md:text-2xl text-md m-3">   {{ $quiz->title }}</h1>
                     <h4 class="md:text-sm text-xs text-purple-700">{{ $quiz->creator->name }}</h4>
@@ -70,7 +70,7 @@
 
 @foreach($topices as $topic)
                 <div class="border-2 m-2 p-2  flex items-center">
-                    <img src="../profile-picture-5 (1).jpg" class="rounded-full m-2 w-[30px] h-[30px] col-span-1" alt="">
+                    <img src="{{ asset('profile-picture-5 (1).jpg') }}" class="rounded-full m-2 w-[30px] h-[30px] col-span-1" alt="">
                     <div class="justify-right">
                         <h4 class="md:text-lg text-sm align-middle whitespace-nowrap overflow-hidden w-[150px]" style="text-overflow: ellipsis;">
                             {{$topic->title}}</h4>
@@ -100,11 +100,11 @@
             <div class="relative md:h-96 h-56 overflow-hidden rounded-lg ">
                 <!-- Item 1 -->
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="../photo1707545723 (1).jpeg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-full" alt="...">
+                    <img src="{{ asset('images/photo1707545723 (1).jpeg')}}" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-full" alt="...">
                 </div>
                 <!-- Item 2 -->
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="../photo1707545723.jpeg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-full" alt="...">
+                    <img src="{{ asset('images/photo1707545723.jpeg')}}" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-full" alt="...">
                 </div>
             </div>
             <!-- Slider indicators -->

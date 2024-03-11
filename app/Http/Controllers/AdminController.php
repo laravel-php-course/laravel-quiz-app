@@ -8,9 +8,12 @@ use App\Http\Requests\Admin\VerificationCodeRequest;
 use App\Http\Requests\resendRequest;
 use App\Models\Admin;
 use App\Models\Answer;
+use App\Models\Category;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\Teacher;
+use App\Models\Topic;
+use App\Models\User;
 use App\Services\BaseService;
 use App\Services\sendEmail;
 use App\Services\VerificationService;
@@ -26,8 +29,11 @@ class AdminController extends Controller
 {
     public function showLoginForm(Request $request)
     {
+        if (auth()->guard('admin')->check()){
+            return redirect('/admin/teachers/show/type/all');
+        }else{
         return view('admin.login');
-    }
+    }}
 
     /**
      * @throws InvalidArgumentException
@@ -43,8 +49,15 @@ class AdminController extends Controller
 
     public function ShowQuizCreateForm()
     {
-        return view('admin.create_quiz');
+        $cat = Category::all();
+        return view('admin.create_quiz')->with('category' , $cat);
     }
+    public function manageUsers()
+    {
+        $cat = User::all();
+        return view('admin.manage_users')->with('users' , $cat);
+    }
+
 
     public function ShowEdit(Request $request , $quiz)
     {
@@ -62,6 +75,9 @@ class AdminController extends Controller
 
     public function handleLogin(RegisterRequest $request)
     {
+        if (auth()->guard('admin')->check()){
+            return redirect('/admin/teachers/show/type/all');
+        }else{
         $field = $request->getField();
         $value = $request->getValue();
         $code = VerificationService::generteCode();
@@ -72,7 +88,7 @@ class AdminController extends Controller
         VerificationService::set($value, $cacheValue, 10);
         VerificationService::sendCode($value, $field, $code);
 
-        return view('admin.code', ['destination' => $value]);
+        return view('admin.code', ['destination' => $value]);}
     }
 
     public function handleResendCode(resendRequest $request)
@@ -103,7 +119,7 @@ class AdminController extends Controller
 //                dd($admin);
                 Auth::guard('admin')->login($admin);
                 VerificationService::delete($request->input('destination'));
-                return redirect()->route('admin.dashboard');
+                return redirect('/admin/teachers/show/type/all');
             }
 
         } else {
@@ -111,10 +127,7 @@ class AdminController extends Controller
         }
     }
 
-    public function dashboard()
-    {
-        return view('admin.dashboard');
-    }
+
 
     public function showAllTeachers(Request $request, $type)
     {
@@ -128,6 +141,19 @@ class AdminController extends Controller
 
         $teachers = Teacher::whereIn('status', $status)->get();
         return view('admin.allTeachers', ['teachers' => $teachers]);
+    }
+    public function showAllTopics(Request $request, $type)
+    {
+
+        if (!in_array($type, ['UnAccept', 'Suspend']))
+            $status = Topic::STATUS;
+        elseif ($type == 'UnAccept')
+            $status = [Topic::PENDING];
+        else
+            $status = [Topic::SUSPEND];
+
+        $topics = Topic::whereIn('status', $status)->get();
+        return view('admin.all_topics', ['topics' => $topics]);
     }
 
     public function showOneTeacher()
@@ -152,6 +178,19 @@ BaseService::sendMail($teacher->email , 'وضعیت شما در سایت تعغ�
             'message' => "وضعیت با موفقیت تغییر کرد",
             'icon'    => Teacher::getStatusIcon($teacher->status),
             'title'   => Teacher::getPersianStatus($teacher->status)
+        ], 200);
+    }
+    public function changeStatusTopic(ChangeStatusRequest $request)
+    {
+        $topic         = Topic::find($request->input('id'));
+        $topic->status = $request->input('action');
+
+        $topic->save();
+        BaseService::sendMail($topic->creator->email , 'وضعیت تاپیک شما در سایت تعغییر کرد لطفا سایت رو چک کنید');
+        return response([
+            'message' => "وضعیت با موفقیت تغییر کرد",
+            'icon'    => Topic::getStatusIcon($topic->status),
+            'title'   => Topic::getPersianStatus($topic->status)
         ], 200);
     }
 }

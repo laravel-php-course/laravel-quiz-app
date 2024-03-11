@@ -20,6 +20,10 @@ class Topic extends Model
     {
         return $this->belongsTo(User::class ,'creator_id' , 'id');
     }
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
     public function likes(): HasMany
     {
         return $this->hasMany(Like::class);
@@ -31,5 +35,25 @@ class Topic extends Model
     public function replays(): HasMany
     {
         return $this->hasMany(Replay::class);
+    }
+
+    public static function getPersianStatus($status)
+    {
+        if ($status === self::ACTIVE)
+            return 'تایید شده';
+        elseif ($status === self::SUSPEND)
+            return 'رد شده';
+        elseif ($status === self::PENDING)
+            return 'در انتظار تایید';
+    }
+
+    public static function getStatusIcon($status)
+    {
+        if ($status === self::ACTIVE)
+            return 'bg-green-500';
+        elseif ($status === self::SUSPEND)
+            return 'bg-red-500';
+        elseif ($status === self::PENDING)
+            return 'bg-yellow-500';
     }
 }

@@ -17,6 +17,10 @@ class checkUser
     {
         if (auth()->check()){
         return $next($request);
+        }elseif (auth()->guard('teacher')->check()){
+            return $next($request);
+        }elseif (auth()->guard('admin')->check()){
+            return $next($request);
         }
         return redirect()->back();
     }

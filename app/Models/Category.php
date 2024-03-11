@@ -14,4 +14,8 @@ class Category extends Model
     {
         return $this->hasMany(Quiz::class);
     }
+    public function topics(): HasMany
+    {
+        return $this->hasMany(Topic::class);
+    }
 }

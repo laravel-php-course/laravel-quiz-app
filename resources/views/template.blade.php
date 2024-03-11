@@ -35,7 +35,7 @@
                 <button class="bg-purple-700 text-white font-bold p-2 rounded-lg m-2 px-4 mr-auto">پروفایل</button>
                 <a href="{{route('user.logOut')}}" class="bg-red-700 text-white font-bold p-2  rounded-lg m-2 px-4">خروج</a>
             @elseif(auth()->guard('teacher')->check())
-                <a href="teacher/dashboard" class="bg-purple-700 text-white font-bold p-2 rounded-lg m-2 px-4 mr-auto">  استاد پروفایل</a>
+                <a href="/teacher/dashboard" class="bg-purple-700 text-white font-bold p-2 rounded-lg m-2 px-4 mr-auto">  استاد پروفایل</a>
                 <a href="{{route('teacher.auth.Logout')}}" class="bg-red-700 text-white font-bold p-2  rounded-lg m-2 px-4">خروج</a>
             @else
                 <button data-modal-target="select-modal" data-modal-toggle="select-modal" class="block mr-auto text-purple border-2 text-2xs md:text-sm border-purple-500 rounded-md m-2 p-1" type="button">
@@ -115,7 +115,7 @@
     <nav class="flex md:col-span-1 col-span-2" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
             <li class="inline-flex items-center">
-                <a href="#" class="inline-flex items-center md:text-sm text-2xs font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                <a href="/" class="inline-flex items-center md:text-sm text-2xs font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
                     <svg class="w-2 h-2 md:w-3 md:h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
                     </svg>
@@ -127,7 +127,7 @@
                     <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                     </svg>
-                    <a href="#" class="ms-1 md:text-sm text-2xs font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">آزمون ها</a>
+                    <a href="" class="ms-1 md:text-sm text-2xs font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">آزمون ها</a>
                 </div>
             </li>
             <li aria-current="page">
@@ -153,27 +153,27 @@
 <div class="text-sm overflow-x-auto font-medium bg-white text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 flex">
     <ul class="flex  mb-px flex-row flex-nowrap overflow-x-auto">
         <li class="me-2">
-            <a href="#" class="text-2xs md:text-sm nowrap flex items-center inline-block p-4 text-purple-700 border-b-2 border-purple-700 rounded-t-lg hover:text-gray-600 active hover:border-gray-300 dark:hover:text-gray-300" aria-current="page">
-                <img src="../icons8-home-48.png" class="w-[20px] h-[20px] m-1" alt="">
+            <a href="/" class="text-2xs md:text-sm nowrap flex items-center inline-block p-4 text-purple-700 border-b-2 border-purple-700 rounded-t-lg hover:text-gray-600 active hover:border-gray-300 dark:hover:text-gray-300" aria-current="page">
+                <img src="{{ asset('images/icons8-home-48.png')}}" class="w-[20px] h-[20px] m-1" alt="">
                 خانه
             </a>
         </li>
         <li class="me-2">
-            <a href="quizez.html" class="text-2xs md:text-sm flex items-center  inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 whitespace-nowrap">
-                <img src="../icons8-exam-30.png" class="w-[20px] h-[20px] m-1" alt="">
+            <a href="/quiz/all" class="text-2xs md:text-sm flex items-center  inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 whitespace-nowrap">
+                <img src="{{ asset('images/icons8-exam-30.png')}}" class="w-[20px] h-[20px] m-1" alt="">
                 آزمون ها
             </a>
         </li>
         <li class="me-2">
-            <a href="all_topices.html" class="text-2xs md:text-sm flex items-center  inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 whitespace-nowrap">
-                <img src="../topic_icon.png" class="w-[20px] h-[20px] m-1" alt="">
+            <a href="/topics/all" class="text-2xs md:text-sm flex items-center  inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 whitespace-nowrap">
+                <img src="{{ asset('images/topic_icon.png')}}" class="w-[20px] h-[20px] m-1" alt="">
                 پرسش و پاسخ
             </a>
         </li>
 
         <li class="me-2">
             <a href="profile.html" class="text-2xs md:text-sm flex items-center  inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 whitespace-nowrap">
-                <img src="../icons8-circled-user-male-skin-type-6-48.png" class="w-[20px] h-[20px] m-1" alt="">
+                <img src="{{ asset('images//icons8-circled-user-male-skin-type-6-48.png')}}" class="w-[20px] h-[20px] m-1" alt="">
                 پروفایل
             </a>
         </li>

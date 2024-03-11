@@ -1,18 +1,12 @@
 <!doctype html>
 <html dir="rtl">
 <head>
-    <link href="{{ asset('images/logo.png') }}" rel="icon">
-
-
-    <!-- css -->
-
-    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
-
-
-    <!-- js -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    @vite('resources/css/app.css')
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 </head>
 <body class="bg-gray-50">
 <nav class="flex items-center justify-center flex-wrap bg-white border-2 p-6  fixed w-full">
